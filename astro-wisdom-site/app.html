@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Astro Wisdom Mobile App Prototype</title>
+<meta name="description" content="Interactive mobile app prototype: Kundli, matching, horoscopes, Panchang, consultation, reports and calculators with per-screen themes.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+@property --b1{syntax:'<color>';inherits:true;initial-value:#0B1026}
+@property --b2{syntax:'<color>';inherits:true;initial-value:#1c2150}
+@property --ac{syntax:'<color>';inherits:true;initial-value:#F2B63C}
+@property --ink{syntax:'<color>';inherits:true;initial-value:#EEF0FF}
+@property --cd{syntax:'<color>';inherits:true;initial-value:#ffffff14}
+*{box-sizing:border-box}[hidden]{display:none!important}html{scroll-behavior:smooth}
+body{margin:0;font:15px/1.55 Inter,'Noto Sans Tamil','Noto Sans Devanagari',system-ui,sans-serif;color:#EEF0FF;background:#0B1026;-webkit-font-smoothing:antialiased;
+ --b1:#0B1026;--b2:#1c2150;--ac:#F2B63C;--ink:#EEF0FF;--cd:#ffffff14;transition:--b1 .9s,--b2 .9s,--ac .9s,--ink .9s,--cd .9s}
+html[lang=ta] body{font-family:'Noto Sans Tamil',Inter,sans-serif}html[lang=hi] body{font-family:'Noto Sans Devanagari',Inter,sans-serif}
+body[data-theme=kundli]{--b1:#04161d;--b2:#0b4a4d;--ac:#5CE0D6;--cd:#ffffff14}
+body[data-theme=horoscope]{--b1:#2a0f26;--b2:#6a2342;--ac:#FFC2A1;--cd:#ffffff17}
+body[data-theme=matching]{--b1:#2b0a14;--b2:#6b1a28;--ac:#FF9A63;--cd:#ffffff16}
+body[data-theme=panchang]{--b1:#2b1606;--b2:#7a4310;--ac:#FFC857;--cd:#ffffff16}
+body[data-theme=consult]{--b1:#071033;--b2:#17348a;--ac:#8EC5FF;--cd:#ffffff16}
+body[data-theme=reports]{--b1:#06201a;--b2:#14563f;--ac:#6BE8B0;--cd:#ffffff14}
+body[data-theme=tools]{--b1:#14161c;--b2:#33384a;--ac:#F2B63C;--cd:#ffffff14}
+body[data-theme=learn]{--b1:#F6F1E7;--b2:#FBE3A6;--ac:#B8860B;--ink:#2B2F45;--cd:#ffffffb3}
+body[data-theme=profile]{--b1:#0B1026;--b2:#1c2150;--ac:#F2B63C}
+a{color:var(--ac)}
+.pagevid{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-3;transform:scale(1.06);transform-origin:0 0}
+.pagetint{position:fixed;inset:0;z-index:-2;background:radial-gradient(70% 70% at 75% 25%,var(--b2),transparent 70%),linear-gradient(180deg,var(--b1),var(--b1));opacity:.86}
+body[data-theme=learn] .pagetint{opacity:.9}
+header.top{position:sticky;top:0;z-index:50;background:rgba(8,11,30,.55);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,214,107,.18)}
+.bar-in{display:flex;align-items:center;gap:12px;height:60px;max-width:1240px;margin:0 auto;padding:0 20px}
+.brand{font:800 16px Fraunces,serif;letter-spacing:.04em;background:linear-gradient(110deg,#E8B86A,#FFF4C9,#E8B86A);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;animation:gs 5s linear infinite}
+@keyframes gs{to{background-position:-250% 0}}
+.sp{flex:1}.btn{font:600 13px inherit;font-family:inherit;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:transparent;color:#EEF0FF;padding:8px 15px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.pri{background:linear-gradient(110deg,#E8A317 0%,#FFD66B 40%,#FFF4C9 50%,#FFD66B 60%,#E8A317 100%);background-size:250% 100%;animation:gs 3.6s linear infinite;border-color:transparent;color:#1b1405}
+.wrap{max-width:1240px;margin:0 auto;padding:24px 20px 60px;display:grid;grid-template-columns:300px 420px 1fr;gap:28px;align-items:start}
+h1{font:800 clamp(26px,3.2vw,38px)/1.1 Fraunces,serif;margin:6px 0 8px;background:linear-gradient(110deg,#fff 0%,#E8B86A 35%,#FFF4C9 50%,#E8B86A 65%,#fff 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gs 6s linear infinite}
+.kick{color:#3FD0C9;font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase}.lead{color:#b9bfe6;font-size:14px}
+.panel{background:rgba(20,26,60,.62);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:14px 16px}
+.panel h3{margin:0 0 8px;font:700 15px Fraunces,serif;color:#FFD66B}
+.nav{display:flex;flex-direction:column;gap:6px;margin-top:14px}.nav button{display:flex;align-items:center;gap:10px;text-align:left;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#EEF0FF;border-radius:12px;padding:9px 12px;font:600 13.5px inherit;font-family:inherit;cursor:pointer;transition:transform .25s,background .25s,border-color .25s}
+.nav button i{font-style:normal;width:22px;text-align:center;color:#FFD66B}.nav button:hover{transform:translateX(4px);border-color:rgba(255,214,107,.5)}.nav button.on{background:rgba(242,182,60,.2);border-color:#F2B63C;box-shadow:0 0 18px rgba(242,182,60,.25)}
+.guide ul{margin:6px 0 0;padding-left:18px;color:#d3d8f5;font-size:13.5px}.guide li{margin:5px 0}.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;background:rgba(63,208,201,.18);color:#7FE7E0;margin:2px 4px 2px 0}.tag.g{background:rgba(242,182,60,.2);color:#FFD66B}
+table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.1);text-align:left;vertical-align:top}th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#a9b0dc}
+/* ----- phone ----- */
+.phone-wrap{perspective:1200px;display:flex;justify-content:center;position:sticky;top:78px}
+.phone{position:relative;width:370px;height:760px;border-radius:50px;padding:11px;background:linear-gradient(145deg,#2b2d3a,#0a0b12);box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 2px #3a3c4c,0 0 60px rgba(242,182,60,.18);transition:transform .2s;transform-style:preserve-3d}
+.notch{position:absolute;top:18px;left:50%;transform:translateX(-50%);width:104px;height:26px;border-radius:14px;background:#05060a;z-index:30}
+.glass{position:relative;width:100%;height:100%;border-radius:40px;overflow:hidden;background:linear-gradient(180deg,var(--b2) 0%,var(--b1) 78%);color:var(--ink);isolation:isolate}
+.glass canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.8}
+.planet{position:absolute;border-radius:50%;z-index:0;filter:blur(.3px);animation:fl 9s ease-in-out infinite}
+.pl1{width:70px;height:70px;right:-18px;top:90px;background:radial-gradient(circle at 30% 30%,var(--ac),transparent 70%);opacity:.5}
+.pl2{width:44px;height:44px;left:-12px;top:300px;background:radial-gradient(circle at 30% 30%,#fff,var(--b2) 80%);opacity:.35;animation-delay:-3s}
+.pl3{width:90px;height:90px;right:-30px;bottom:140px;background:radial-gradient(circle at 30% 30%,var(--ac),transparent 70%);opacity:.3;animation-delay:-6s}
+@keyframes fl{50%{transform:translateY(-18px) translateX(6px)}}
+.status{position:absolute;top:0;left:0;right:0;height:44px;display:flex;justify-content:space-between;align-items:center;padding:6px 26px 0;font-size:12px;font-weight:700;z-index:20}
+.appbar{position:absolute;top:44px;left:0;right:0;height:52px;display:flex;align-items:center;gap:8px;padding:0 16px;z-index:20;background:linear-gradient(180deg,color-mix(in srgb,var(--b2) 80%,transparent),transparent)}
+.appbar b{font:800 17px Fraunces,serif;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chip{font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--cd);border:1px solid color-mix(in srgb,var(--ink) 20%,transparent);color:var(--ink);cursor:pointer}
+.chip.on{background:var(--ac);color:#1b1405;border-color:transparent;box-shadow:0 0 14px color-mix(in srgb,var(--ac) 55%,transparent)}
+.screens{position:absolute;inset:0;z-index:5}
+.screen{position:absolute;inset:0;overflow-y:auto;padding:104px 16px 96px;opacity:0;transform:translateX(34px) scale(.98);pointer-events:none;transition:opacity .45s,transform .55s cubic-bezier(.16,1,.3,1);scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}.screen.on{opacity:1;transform:none;pointer-events:auto}.screen.left{transform:translateX(-34px) scale(.98)}
+.card{background:var(--cd);border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);border-radius:18px;padding:13px 14px;margin-bottom:12px;backdrop-filter:blur(6px)}
+.card h4{margin:0 0 6px;font:700 14px Fraunces,serif}.mut{opacity:.75;font-size:12.5px}
+.row{display:flex;gap:8px;align-items:center}.row.w{flex-wrap:wrap}.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.in{width:100%;background:color-mix(in srgb,var(--ink) 8%,transparent);border:1px solid color-mix(in srgb,var(--ink) 20%,transparent);color:var(--ink);border-radius:12px;padding:10px 12px;font:14px inherit;font-family:inherit;margin:3px 0 8px}
+.in::placeholder{color:color-mix(in srgb,var(--ink) 50%,transparent)}label{font-size:11.5px;opacity:.8}
+.cta{width:100%;border:0;border-radius:14px;padding:12px;font:800 14px inherit;font-family:inherit;color:#1b1405;background:linear-gradient(110deg,var(--ac),#FFF4C9 50%,var(--ac));background-size:250% 100%;animation:gs 3.2s linear infinite;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 10px 24px color-mix(in srgb,var(--ac) 40%,transparent)}
+.cta:active{transform:scale(.98)}.ghost{background:transparent;border:1px solid color-mix(in srgb,var(--ink) 30%,transparent);color:var(--ink);animation:none;box-shadow:none}
+.shine{position:relative;overflow:hidden}.shine:after{content:"";position:absolute;top:0;left:-70%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:sh 3.6s ease-in-out infinite}
+@keyframes sh{0%,55%{left:-70%}100%{left:140%}}.shine:nth-child(2n):after{animation-delay:.6s}.shine:nth-child(3n):after{animation-delay:1.2s}
+.marq{overflow:hidden;white-space:nowrap;margin:0 -16px 12px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marq div{display:inline-block;animation:mq 22s linear infinite}.marq span{display:inline-block;margin:0 6px;font-size:12px;font-weight:700;padding:4px 11px;border-radius:999px;background:var(--cd);border:1px solid color-mix(in srgb,var(--ink) 18%,transparent)}@keyframes mq{to{transform:translateX(-50%)}}
+.hero-card{position:relative;overflow:hidden;border-radius:22px;padding:16px;margin-bottom:12px;background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 28%,transparent),var(--cd));border:1px solid color-mix(in srgb,var(--ac) 40%,transparent)}
+.hero-card h3{margin:0;font:800 20px/1.15 Fraunces,serif;max-width:170px}.hero-card p{max-width:170px;margin:6px 0 10px}
+.wheel{position:absolute;right:-34px;top:-14px;width:170px;height:170px;animation:spin 36s linear infinite;opacity:.95}@keyframes spin{to{transform:rotate(360deg)}}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}.tile{border:0;text-align:center;background:var(--cd);border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);color:var(--ink);border-radius:14px;padding:10px 2px 8px;font:600 10.5px inherit;font-family:inherit;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.tile i{display:block;font:normal 20px/1.2 'Segoe UI Symbol','Noto Sans Symbols',serif;color:var(--ac);margin-bottom:3px}.tile:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 10px 22px color-mix(in srgb,var(--ac) 35%,transparent)}
+.snap{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px 12px;padding:2px 16px;scrollbar-width:none;cursor:grab}.snap::-webkit-scrollbar{display:none}
+.sg{flex:0 0 112px;scroll-snap-align:start;background:var(--cd);border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);border-radius:16px;padding:10px;text-align:center;transition:transform .3s}.sg:hover{transform:translateY(-4px)}
+.sg i{font:normal 26px 'Segoe UI Symbol','Noto Sans Symbols',serif;color:var(--ac)}.sg b{display:block;font-size:13px}.sg small{opacity:.7;font-size:11px}
+.bar{height:8px;border-radius:5px;background:color-mix(in srgb,var(--ink) 14%,transparent);overflow:hidden;margin:4px 0 9px}.bar i{display:block;height:100%;width:0;border-radius:5px;background:linear-gradient(90deg,var(--ac),#FFF4C9);transition:width 1.3s cubic-bezier(.16,1,.3,1)}.go .bar i{width:var(--w)}
+.tabs{display:flex;gap:6px;margin:0 0 10px;overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.gauge{width:170px;height:96px;margin:4px auto 0;position:relative}.gauge svg{width:100%;height:100%}.gauge .num{position:absolute;left:0;right:0;bottom:-4px;text-align:center;font:800 28px Fraunces,serif}
+.blocks{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.blk{border-radius:10px;padding:9px 2px;text-align:center;font-size:11px;font-weight:700;opacity:0;transform:translateY(10px);transition:opacity .5s,transform .5s}.go .blk{opacity:1;transform:none}
+.tl{position:relative;height:34px;border-radius:10px;background:color-mix(in srgb,var(--ink) 12%,transparent);overflow:hidden;margin:6px 0}.tl i{position:absolute;top:0;bottom:0;border-radius:6px}.now{position:absolute;top:-2px;bottom:-2px;width:3px;background:#fff;box-shadow:0 0 10px #fff;animation:nw 8s ease-in-out infinite alternate}@keyframes nw{from{left:6%}to{left:92%}}
+.bub{max-width:86%;padding:9px 12px;border-radius:16px;margin:6px 0;font-size:13px}.bub.u{margin-left:auto;background:var(--ac);color:#1b1405;border-bottom-right-radius:4px}.bub.a{background:var(--cd);border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);border-bottom-left-radius:4px}
+.dots span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ink);margin:0 2px;animation:dt 1s infinite}.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}@keyframes dt{50%{transform:translateY(-5px);opacity:.4}}
+.ring{width:46px;height:46px;border-radius:50%;background:conic-gradient(var(--ac) calc(var(--p)*1%),color-mix(in srgb,var(--ink) 16%,transparent) 0);display:grid;place-items:center;font-size:11px;font-weight:800}.ring b{width:34px;height:34px;border-radius:50%;background:var(--b1);display:grid;place-items:center}
+.tog{width:42px;height:24px;border-radius:12px;background:color-mix(in srgb,var(--ink) 25%,transparent);position:relative;cursor:pointer;border:0;transition:background .3s}.tog:after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .3s}.tog[aria-pressed=true]{background:var(--ac)}.tog[aria-pressed=true]:after{transform:translateX(18px)}
+.tabbar{position:absolute;left:10px;right:10px;bottom:10px;height:64px;border-radius:22px;z-index:25;display:flex;justify-content:space-around;align-items:center;background:color-mix(in srgb,var(--b1) 78%,transparent);backdrop-filter:blur(14px);border:1px solid color-mix(in srgb,var(--ink) 16%,transparent);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.tabbar button{background:none;border:0;color:var(--ink);opacity:.62;font:700 10px inherit;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:6px 8px;border-radius:14px;transition:all .3s}.tabbar button i{font:normal 18px 'Segoe UI Symbol','Noto Sans Symbols',serif}
+.tabbar button.on{opacity:1;color:var(--ac);transform:translateY(-4px);text-shadow:0 0 12px var(--ac)}
+.fab{position:absolute;right:18px;bottom:84px;width:50px;height:50px;border-radius:50%;z-index:26;border:0;cursor:pointer;color:#1b1405;font:normal 20px 'Segoe UI Symbol',serif;background:linear-gradient(135deg,var(--ac),#FFF4C9);box-shadow:0 10px 24px color-mix(in srgb,var(--ac) 55%,transparent);animation:pulse 2.6s infinite}@keyframes pulse{50%{box-shadow:0 0 0 12px color-mix(in srgb,var(--ac) 0%,transparent),0 10px 24px color-mix(in srgb,var(--ac) 55%,transparent)}}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#F2B63C;color:#241a05;padding:10px 18px;border-radius:999px;font-weight:700;z-index:90;display:none}
+.gal{display:flex;gap:16px;overflow-x:auto;padding:6px 2px 14px}.gal figure{flex:0 0 190px;margin:0;background:rgba(20,26,60,.62);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:8px;transition:transform .3s,box-shadow .3s}.gal figure:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(242,182,60,.3)}.gal img{width:100%;border-radius:10px;background:#f4f5f8;cursor:zoom-in}.gal figcaption{font-size:12px;margin-top:6px;color:#d3d8f5}
+.full{grid-column:1/-1}dialog{border:0;border-radius:16px;padding:0;background:#f4f5f8;max-width:94vw}dialog::backdrop{background:rgba(3,5,18,.8)}dialog img{max-height:90vh;display:block}
+@media(max-width:1100px){.wrap{grid-template-columns:300px 1fr}.guide-col{grid-column:1/-1}}
+@media(max-width:760px){.wrap{grid-template-columns:1fr}.phone-wrap{position:static;order:-1}.phone{width:min(370px,100%)}.left-col{order:2}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head>
+<body data-theme="home">
+<video class="pagevid" id="bgvid" autoplay muted loop playsinline preload="metadata" poster="assets/hero-bg-poster.jpg" aria-hidden="true"><source src="assets/hero-bg.mp4" type="video/mp4"></video><div class="pagetint"></div>
+<header class="top"><div class="bar-in"><a class="brand" href="index.html">ASTRO WISDOM™</a><span class="mut" style="font-size:13px;opacity:.8">Mobile app prototype</span><span class="sp"></span><a class="btn" href="index.html">← Blueprint site</a><button class="btn" data-go="profile" data-i="login"></button><button class="btn pri" data-go="profile" data-i="register"></button></div></header>
+
+<main class="wrap">
+ <section class="left-col">
+  <div class="kick">Interactive prototype</div><h1>Astro Wisdom App</h1>
+  <p class="lead">All the tools of a full astrology app (Kundli, matching, horoscopes, Panchang, consultation, reports, calculators, learning) rebuilt around our principles: labelled methods, calm tone, no fear-based selling. Tap through it. Each screen changes the theme and the background.</p>
+  <div class="nav" id="nav"></div>
+  <div class="panel" style="margin-top:14px"><h3>Language</h3><div class="row w" id="langs"></div></div>
+ </section>
+
+ <section class="phone-wrap"><div class="phone" id="phone"><span class="notch"></span>
+  <div class="glass" id="glass"><canvas id="stars"></canvas><i class="planet pl1"></i><i class="planet pl2"></i><i class="planet pl3"></i>
+   <div class="status"><span>9:41</span><span>5G ▮▮▮</span></div>
+   <div class="appbar"><b id="title">Home</b><button class="chip" id="langChip">EN</button><button class="chip on" data-go="profile" data-i="login"></button></div>
+   <div class="screens" id="screens">
+
+    <!-- HOME -->
+    <div class="screen" data-s="home">
+     <div class="marq"><div id="marq"></div></div>
+     <div class="hero-card shine"><svg class="wheel" viewBox="0 0 200 200"><g fill="none" stroke="var(--ac)" stroke-width="1.6"><circle cx="100" cy="100" r="94"/><circle cx="100" cy="100" r="64"/><circle cx="100" cy="100" r="30"/></g><g id="wheelsigns" fill="var(--ac)" font-size="16" text-anchor="middle"></g></svg>
+      <h3 data-i="h_hero">Free Kundli in 60 seconds</h3><p class="mut" data-i="h_hero2">Birth chart with the method named.</p><button class="cta" style="width:auto;padding:9px 16px" data-go="kundli" data-i="create">Create my sky</button></div>
+     <div class="tiles" id="tiles"></div>
+     <div class="row" style="justify-content:space-between"><h4 style="margin:4px 0 8px;font:700 15px Fraunces,serif" data-i="today">Today's horoscope</h4><a href="#" data-go="horoscope" style="font-size:12px" data-i="all">All</a></div>
+     <div class="snap" id="snap"></div>
+     <div class="card"><h4 data-i="panchang">Panchang</h4><div class="mut" style="margin-bottom:8px">New Delhi · Tue 28 Oct (sample)</div>
+      <div class="mut">Tithi</div><div class="bar"><i style="--w:72%"></i></div><div class="mut">Nakshatra</div><div class="bar"><i style="--w:48%"></i></div><div class="mut">Rahu Kaal window</div><div class="bar"><i style="--w:26%"></i></div></div>
+     <div class="card"><h4 data-i="talk">Talk to an astrologer</h4><div class="mut" style="margin-bottom:8px">AI Guide is free for your first question. Human sessions have fixed prices.</div>
+      <div class="row"><button class="chip on" data-go="consult">AI Guide</button><button class="chip" data-go="consult">Human · ₹899</button></div></div>
+     <div class="mut" style="text-align:center;margin:8px 0 0" data-i="disc">Symbolic and traditional guidance — not scientific prediction or advice.</div>
+    </div>
+
+    <!-- KUNDLI -->
+    <div class="screen" data-s="kundli">
+     <div id="kForm"><div class="card"><h4 data-i="free_kundli">Free Kundli</h4>
+       <label>Name</label><input class="in" value="Priya"><div class="g2"><div><label>Date of birth</label><input class="in" type="date" value="1994-03-14"></div><div><label>Time</label><input class="in" type="time" value="06:45"></div></div>
+       <label>Place of birth</label><input class="in" value="Chennai, Tamil Nadu, IN">
+       <div class="row" style="justify-content:space-between"><b style="font-size:13px">Advanced</b><button class="tog" id="advTog" aria-pressed="false" aria-label="Advanced"></button></div>
+       <div id="adv" hidden style="margin-top:8px"><div class="row w"><span class="chip on">Lahiri</span><span class="chip">KP</span><span class="chip">Raman</span></div><div class="row w" style="margin-top:6px"><span class="chip on">North Indian</span><span class="chip">South</span><span class="chip">Western</span></div><div class="row w" style="margin-top:6px"><span class="chip on">Whole sign</span><span class="chip">±15 min</span></div></div>
+      </div><button class="cta" id="kGo" data-i="generate">Generate Kundli</button></div>
+     <div id="kRes" hidden>
+      <div class="tabs"><button class="chip on" data-kt="chart">Chart</button><button class="chip" data-kt="planets">Planets</button><button class="chip" data-kt="dasha">Dasha</button></div>
+      <div class="card" data-kp="chart"><svg viewBox="0 0 220 220" width="100%"><g id="kchart" fill="none" stroke="var(--ac)" stroke-width="1.6"><rect x="10" y="10" width="200" height="200"/><path d="M10 10L210 210M210 10L10 210M110 10L210 110L110 210L10 110Z"/></g><g id="kplan" fill="var(--ink)" font-size="11" text-anchor="middle"><text x="110" y="62">Su Me</text><text x="62" y="40">Ve</text><text x="34" y="64">Ma</text><text x="62" y="112">Ju</text><text x="36" y="160">Ra</text><text x="62" y="186">Sa</text><text x="110" y="168">Mo</text><text x="162" y="190">Ke</text></g></svg><div class="mut" style="text-align:center">D1 Rāśi · Lahiri · Whole-sign · Parashari v2.3 (sample)</div></div>
+      <div class="card" data-kp="planets" hidden><table><tr><th>Planet</th><th>Sign</th><th>Nak.</th></tr><tr><td>Sun</td><td>Pisces</td><td>…</td></tr><tr><td>Moon</td><td>Taurus</td><td>…</td></tr><tr><td>Mars</td><td>Capricorn</td><td>…</td></tr><tr><td>Saturn</td><td>Aquarius</td><td>…</td></tr></table><div class="mut" style="margin-top:6px">Tap a row to open Explain This.</div></div>
+      <div class="card" data-kp="dasha" hidden><h4>Vimshottari Dasha</h4><div class="bar"><i style="--w:88%"></i></div><div class="mut">Moon → Mars → <b>Rahu</b> → Jupiter</div><div class="bar"><i style="--w:55%"></i></div><div class="mut">Rahu period: a plain-language meaning appears here.</div></div>
+      <div class="row"><button class="cta ghost" id="kBack" style="flex:1">Edit</button><button class="cta" data-go="consult" style="flex:1">Ask the Guide</button></div></div>
+    </div>
+
+    <!-- HOROSCOPE -->
+    <div class="screen" data-s="horoscope">
+     <div class="tabs" id="hperiod"><button class="chip on" data-p="Daily">Daily</button><button class="chip" data-p="Weekly">Weekly</button><button class="chip" data-p="Monthly">Monthly</button><button class="chip" data-p="Yearly">Yearly 2027</button></div>
+     <div class="snap" id="hsigns"></div>
+     <div class="row" style="margin-bottom:10px"><button class="chip on" id="lens" data-lens="0">Vedic · Moon sign</button><button class="chip" data-lens="1">Western · Sun sign</button></div>
+     <div class="card"><h4 id="hTitle">Scorpio · Daily</h4><div id="hText" class="mut" style="font-size:13.5px;opacity:.9">Energy turns toward long-term work. Notice where effort feels chosen and where it feels automatic.</div>
+       <div style="margin-top:10px"><div class="mut">Love</div><div class="bar"><i style="--w:70%"></i></div><div class="mut">Work</div><div class="bar"><i style="--w:86%"></i></div><div class="mut">Money</div><div class="bar"><i style="--w:52%"></i></div><div class="mut">Mind</div><div class="bar"><i style="--w:64%"></i></div></div></div>
+     <div class="card" style="border-color:var(--ac)"><h4>Reflect</h4><div class="mut" style="font-size:13px;opacity:.9">Where did I put my energy this week, and was it chosen?</div><button class="cta" style="margin-top:8px" id="journal">Journal it</button></div>
+    </div>
+
+    <!-- MATCHING -->
+    <div class="screen" data-s="matching">
+     <div class="card"><h4 data-i="matching">Horoscope Matching</h4><div class="g2"><div><label>Partner A</label><input class="in" value="Arun"><input class="in" type="date" value="1992-08-02"></div><div><label>Partner B</label><input class="in" value="Priya"><input class="in" type="date" value="1994-03-14"></div></div><button class="cta" id="mGo" data-i="match">Match (Ashtakoot · 36)</button></div>
+     <div class="card" id="mRes" hidden><div class="gauge"><svg viewBox="0 0 170 96"><path d="M12 90A73 73 0 0 1 158 90" fill="none" stroke="color-mix(in srgb,var(--ink) 18%,transparent)" stroke-width="12" stroke-linecap="round"/><path id="gArc" d="M12 90A73 73 0 0 1 158 90" fill="none" stroke="var(--ac)" stroke-width="12" stroke-linecap="round" stroke-dasharray="230" stroke-dashoffset="230" style="transition:stroke-dashoffset 1.6s cubic-bezier(.16,1,.3,1)"/></svg><div class="num"><span id="gNum">0</span> / 36</div></div>
+      <div class="mut" style="text-align:center;margin:6px 0 8px">Traditional compatibility score (sample)</div><div class="row w" style="justify-content:center;margin-bottom:8px"><span class="chip on">Mangal dosha: none</span><span class="chip">Western lens ⇄</span></div>
+      <div id="koota"></div><div class="mut" style="margin-top:6px">A score is a traditional measure, not a verdict on a relationship.</div></div>
+    </div>
+
+    <!-- PANCHANG -->
+    <div class="screen" data-s="panchang">
+     <div class="row" style="margin-bottom:10px"><button class="chip on">New Delhi ▾</button><button class="chip">Tue 28 Oct ▾</button></div>
+     <div class="card"><h4 data-i="panchang">Panchang</h4><table><tr><td>Tithi</td><td class="mut">from ephemeris</td></tr><tr><td>Nakshatra</td><td class="mut">from ephemeris</td></tr><tr><td>Yoga · Karana</td><td class="mut">from ephemeris</td></tr><tr><td>Sunrise · Sunset</td><td class="mut">06:30 · 17:45</td></tr></table></div>
+     <div class="card"><h4>Day timeline (sample)</h4><div class="tl"><i style="left:58%;width:14%;background:#D64545"></i><i style="left:14%;width:10%;background:#2EAD7B"></i><i style="left:38%;width:6%;background:#FFC857"></i><span class="now"></span></div><div class="row w"><span class="tag" style="background:#D6454533;color:#ff9a9a">Rahu Kaal</span><span class="tag">Abhijit</span><span class="tag g">Now</span></div></div>
+     <div class="card"><h4>Choghadiya · day</h4><div class="blocks" id="chog"></div></div>
+    </div>
+
+    <!-- CONSULT -->
+    <div class="screen" data-s="consult">
+     <div class="tabs"><button class="chip on" data-ct="ai" data-i="ai_guide">AI Guide</button><button class="chip" data-ct="human" data-i="human">Human sessions</button></div>
+     <div id="ctAi"><div class="card"><div class="bub u">Why is Saturn in my 7th house a big deal?</div><div id="chat"></div><div class="mut" style="margin-top:8px">Using: Vedic · Parashari v2.3 · answer cites its rule.</div></div><button class="cta ghost" id="replay">Replay answer</button></div>
+     <div id="ctHu" hidden><div class="card shine"><h4>Dr. A. Raman · Parashari ✓</h4><div class="mut">★ 4.8 · Tamil · English</div><div class="row w" style="margin:8px 0"><span class="tag g">20 min ₹899</span><span class="tag g">40 min ₹1,599</span></div><button class="cta" data-toast="Booking is a demo">Book video</button></div>
+      <div class="card shine"><h4>R. Meenakshi · Hellenistic</h4><div class="mut">★ 4.8 · Tamil</div><div class="row w" style="margin:8px 0"><span class="tag g">20 min ₹899</span></div><button class="cta ghost" data-toast="Booking is a demo">Chat</button></div><div class="mut">Methodology disclosed. No outcome guarantees.</div></div>
+    </div>
+
+    <!-- REPORTS -->
+    <div class="screen" data-s="reports">
+     <div class="card"><h4 data-i="reports">Free reports</h4><div class="mut">Each is a labelled calculation. Doshas are shown as patterns, not curses.</div></div>
+     <div class="g2" id="rep"></div>
+     <div class="card" style="margin-top:12px"><h4>Gemstones</h4><div class="mut">Shown as cultural practice, never as a cure. No selling here.</div></div>
+    </div>
+
+    <!-- TOOLS -->
+    <div class="screen" data-s="tools">
+     <div class="card"><h4>Sun sign</h4><input class="in" type="date" id="dob1" value="1994-03-14"><div id="sunOut" style="font:800 20px Fraunces,serif"></div><div class="mut">Western (tropical) Sun sign by date. A Vedic sign needs time and place.</div></div>
+     <div class="card"><h4>Life path number</h4><input class="in" type="date" id="dob2" value="1994-03-14"><div id="lpOut" style="font:800 20px Fraunces,serif"></div><div class="mut">Numerology: digits of the date reduced (11, 22, 33 kept). A separate method.</div></div>
+     <div class="g2"><button class="cta ghost shine" data-go="kundli">Moon sign →</button><button class="cta ghost shine" data-go="kundli">Ascendant →</button><button class="cta ghost shine" data-go="kundli">Nakshatra →</button><button class="cta ghost shine" data-go="matching">Love match →</button></div>
+    </div>
+
+    <!-- LEARN -->
+    <div class="screen" data-s="learn">
+     <div class="card"><h4 data-i="learn">Sky School</h4><div class="mut">5–10 minute lessons.</div></div>
+     <div id="lessons"></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="screen" data-s="profile">
+     <div class="tabs"><button class="chip on" data-at="login" data-i="login">Log in</button><button class="chip" data-at="register" data-i="register">Register</button></div>
+     <div class="card"><h4 id="aTitle">Welcome back</h4><div id="aReg" hidden><label>Full name</label><input class="in"></div><label>Mobile or email</label><input class="in" placeholder="+91 …"><button class="cta" id="aGo">Send OTP</button>
+      <div class="row" style="margin-top:8px"><button class="cta ghost" style="flex:1" data-toast="Demo only">Google</button><button class="cta ghost" style="flex:1" data-toast="Demo only">Apple</button></div>
+      <label style="display:flex;gap:8px;margin-top:10px;align-items:flex-start"><input type="checkbox"> I am 18 or older and agree to the Terms and Privacy Policy</label><div class="mut" style="margin-top:6px">Prototype only: nothing is stored or sent.</div></div>
+     <div class="card"><h4>Settings</h4><div class="row" style="justify-content:space-between;margin:6px 0"><span>No-predictions mode</span><button class="tog" aria-pressed="false" aria-label="No predictions"></button></div><div class="row" style="justify-content:space-between;margin:6px 0"><span>Gentle daily reminder</span><button class="tog" aria-pressed="true" aria-label="Reminder"></button></div><div class="row" style="justify-content:space-between;margin:6px 0"><span>Share cards hide birth data</span><button class="tog" aria-pressed="true" aria-label="Privacy"></button></div></div>
+    </div>
+   </div>
+   <button class="fab" data-go="consult" aria-label="Talk">☎</button>
+   <nav class="tabbar" id="tabbar"></nav>
+  </div></div></section>
+
+ <section class="guide-col">
+  <div class="panel guide" id="guide"></div>
+  <div class="panel" style="margin-top:14px"><h3>Feature parity with leading astrology apps</h3><table><thead><tr><th>Feature</th><th>Screen</th><th>Status</th></tr></thead><tbody id="parity"></tbody></table></div>
+ </section>
+
+ <section class="full"><div class="panel"><h3>Mobile wireframes (18)</h3><div class="gal" id="gal"></div></div></section>
+</main>
+<dialog id="lb"><img id="lbi" alt=""></dialog><div class="toast" id="toast"></div>
+
+<script>
+const FR=[{"id":"m01-welcome","title":"Welcome & mode choice"},{"id":"m02-birth","title":"Birth profile"},{"id":"m03-mysky","title":"My Sky (home)"},{"id":"m04-today","title":"Today (daily sky cards)"},{"id":"m05-traditions","title":"Tradition compare (Wisdom Lens)"},{"id":"m06-studio-frame","title":"Decision Studio — frame the question"},{"id":"m07-studio-results","title":"Decision Studio — compare, reflect, act"},{"id":"m08-guide","title":"Wisdom Guide (AI chat + Explain This)"},{"id":"m09-experts","title":"Experts & booking"},{"id":"m10-lifeclock","title":"Life Clock & Sky Journal"},{"id":"m11-profile","title":"Profile, tone & privacy"},{"id":"m12-plans","title":"Plans & paywall"},{"id":"w01-landing","title":"Landing page (above the fold)"},{"id":"w02-mysky","title":"My Sky dashboard"},{"id":"w03-compare","title":"Tradition compare + Convergence lens"},{"id":"w04-studio","title":"Decision Studio workspace"},{"id":"w05-experts","title":"Expert marketplace + profile drawer"},{"id":"w06-admin","title":"Admin console (ops, safety, rule registry)"},{"id":"w07-pricing","title":"Pricing page"},{"id":"w08-auth","title":"Log in / Register"},{"id":"w09-learn","title":"Sky School (Learn) with sign cards"},{"id":"w10-journal","title":"Sky Journal & Life Clock"},{"id":"m13-login","title":"Log in"},{"id":"m14-register","title":"Register"},{"id":"w11-traditions","title":"Traditions library"},{"id":"w12-home-tools","title":"Home with mega menu, quick Kundli, matching and tools grid"},{"id":"w13-kundli","title":"Free Kundli (form, chart, planets, dasha)"},{"id":"w14-matching","title":"Horoscope Matching (Ashtakoot)"},{"id":"w15-horoscope","title":"Horoscope by sign (daily to yearly)"},{"id":"w16-panchang","title":"Panchang and Choghadiya"},{"id":"w17-consult","title":"Talk to an astrologer"},{"id":"w18-reports","title":"Free reports and calculators"},{"id":"m15-kundli","title":"Free Kundli (form)"},{"id":"m16-horoscope","title":"Horoscope by sign"},{"id":"m17-panchang","title":"Panchang (mobile)"},{"id":"m18-matching","title":"Matching result"}];
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const T={en:{login:'Log in',register:'Register',create:'Create my sky',free_kundli:'Free Kundli',generate:'Generate Kundli',matching:'Horoscope Matching',match:'Match (Ashtakoot · 36)',panchang:'Panchang',reports:'Free reports',learn:'Sky School',today:"Today's horoscope",all:'All',talk:'Talk to an astrologer',ai_guide:'AI Guide',human:'Human sessions',h_hero:'Free Kundli in 60 seconds',h_hero2:'Birth chart with the method named.',disc:'Symbolic and traditional guidance — not scientific prediction or advice.',home:'Home',kundli:'Kundli',horoscope:'Horoscope',consult:'Consult',tools:'Tools',profile:'Profile'},
+ ta:{login:'உள்நுழை',register:'பதிவு செய்',create:'என் வானத்தை உருவாக்கு',free_kundli:'இலவச குண்டலி',generate:'குண்டலி உருவாக்கு',matching:'ஜாதகப் பொருத்தம்',match:'பொருத்தம் பார் (அஷ்டகூடம் · 36)',panchang:'பஞ்சாங்கம்',reports:'இலவச அறிக்கைகள்',learn:'வான் பள்ளி',today:'இன்றைய ராசிபலன்',all:'அனைத்தும்',talk:'ஜோதிடருடன் பேசு',ai_guide:'AI வழிகாட்டி',human:'நிபுணர் அமர்வுகள்',h_hero:'60 விநாடிகளில் இலவச குண்டலி',h_hero2:'முறை பெயரிடப்பட்ட ஜாதகம்.',disc:'குறியீட்டு மற்றும் பாரம்பரிய வழிகாட்டுதல் — அறிவியல் கணிப்பு அல்ல.',home:'முகப்பு',kundli:'குண்டலி',horoscope:'ராசிபலன்',consult:'ஆலோசனை',tools:'கருவிகள்',profile:'சுயவிவரம்'},
+ hi:{login:'लॉग इन',register:'रजिस्टर',create:'मेरा आकाश बनाएँ',free_kundli:'मुफ़्त कुंडली',generate:'कुंडली बनाएँ',matching:'कुंडली मिलान',match:'मिलान करें (अष्टकूट · 36)',panchang:'पंचांग',reports:'मुफ़्त रिपोर्ट',learn:'स्काई स्कूल',today:'आज का राशिफल',all:'सभी',talk:'ज्योतिषी से बात करें',ai_guide:'AI गाइड',human:'विशेषज्ञ सत्र',h_hero:'60 सेकंड में मुफ़्त कुंडली',h_hero2:'पद्धति के नाम के साथ जन्म कुंडली।',disc:'प्रतीकात्मक और पारंपरिक मार्गदर्शन — वैज्ञानिक भविष्यवाणी नहीं।',home:'होम',kundli:'कुंडली',horoscope:'राशिफल',consult:'परामर्श',tools:'टूल',profile:'प्रोफ़ाइल'}};
+const SIGNS=[['Aries','♈','Mar 21 – Apr 19'],['Taurus','♉','Apr 20 – May 20'],['Gemini','♊','May 21 – Jun 20'],['Cancer','♋','Jun 21 – Jul 22'],['Leo','♌','Jul 23 – Aug 22'],['Virgo','♍','Aug 23 – Sep 22'],['Libra','♎','Sep 23 – Oct 22'],['Scorpio','♏','Oct 23 – Nov 21'],['Sagittarius','♐','Nov 22 – Dec 21'],['Capricorn','♑','Dec 22 – Jan 19'],['Aquarius','♒','Jan 20 – Feb 18'],['Pisces','♓','Feb 19 – Mar 20']].map(s=>[s[0],s[1]+'︎',s[2]]);
+const SCREENS=[
+ ['home','⌂','Home',['Language strip that scrolls, 13+ languages planned','Free Kundli card with a rotating zodiac wheel','Eight-tile tools grid, swipeable sign carousel','Panchang snapshot and AI Guide entry'],['Kundli form + Panchang strip','Tools grid','Daily horoscope'],'Gold on midnight; the wheel turns slowly'],
+ ['kundli','☉','Kundli',['Four fields, Advanced toggle (ayanamsa, chart style, house system)','Result tabs: Chart, Planets, Dasha','Every result carries tradition, method and version'],['Free Kundli','Dasha','Chart styles'],'Teal and aurora; chart draws itself'],
+ ['horoscope','♌','Horoscope',['Daily, weekly, monthly, yearly 2027','Twelve-sign picker, Vedic Moon or Western Sun lens','Reflection prompt and Journal action'],['Rashifal','Yearly horoscope'],'Rose-gold dusk; bars fill in'],
+ ['matching','⚭','Matching',['Two profiles, Ashtakoot score out of 36','Gauge counts up, eight koota bars fill','Mangal dosha as a pattern; second-lens compare'],['Horoscope matching','Dosha check'],'Ember red; gauge sweeps'],
+ ['panchang','☾','Panchang',['City and date selectors','Tithi, nakshatra, yoga, karana, sunrise and sunset','Rahu Kaal, Abhijit and a moving now-marker; Choghadiya blocks'],['Panchang','Rahu Kaal','Choghadiya'],'Saffron sunrise; marker glides'],
+ ['consult','☎','Consult',['AI Guide that cites its rule (typing animation)','Human sessions with fixed packages','No per-minute billing, methodology disclosed'],['Chat with astrologer','AI astrologers'],'Sky blue; chat streams in'],
+ ['reports','✦','Reports',['Sade Sati, Mangal and Kaalsarp, dasha, varshphal, transit, gemstones, baby names','Each opens a labelled calculation'],['Free reports'],'Emerald; tiles shine'],
+ ['tools','∑','Tools',['Working Sun sign and life path calculators','Moon sign, ascendant, nakshatra open the Kundli flow'],['Calculators','Numerology'],'Slate and gold'],
+ ['learn','✎','Learn',['Lessons with progress rings','Short, plain-language explainers'],['Learn astrology','Magazine'],'Calm ivory skin for 35–55+ users'],
+ ['profile','☺','Profile',['Log in and Register (OTP), Google and Apple','Language list, no-predictions mode, privacy toggles'],['Sign in','Languages','Notifications'],'Back to midnight and gold'],
+];
+const PARITY=[['Free Kundli','Kundli','In prototype'],['Horoscope matching','Matching','In prototype'],['Daily to yearly horoscope','Horoscope','In prototype'],['Panchang, Rahu Kaal, Choghadiya','Panchang','In prototype'],['Calculators (sun sign, numerology)','Tools','In prototype'],['Free reports hub','Reports','In prototype'],['Chat with astrologers (AI and human)','Consult','In prototype'],['Language strip (13+ languages)','Home','EN · TA · HI live, rest planned'],['Sign in with OTP','Profile','In prototype'],['Learn / magazine','Learn','In prototype'],['Muhurat, festival calendar','—','Planned (phase 2)'],['Remedy and gemstone shop','—','Not planned, by design']];
+let lang='en',cur='home',order=SCREENS.map(s=>s[0]);
+const t=k=>(T[lang][k]??T.en[k]??k);
+function toast(m){const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',2200)}
+function applyLang(){document.documentElement.lang=lang;$$('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));$('#langChip').textContent=lang.toUpperCase();$$('#langs .chip').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));$('#title').textContent=t(cur);buildNav();buildTabbar();try{localStorage.setItem('aw-lang',lang)}catch(e){}}
+// build UI pieces
+$('#marq').innerHTML=(()=>{const L=['English','தமிழ்','हिन्दी','తెలుగు','ಕನ್ನಡ','മലയാളം','मराठी','বাংলা','ગુજરાતી','ਪੰਜਾਬੀ','ଓଡ଼ିଆ','اردو'];return [...L,...L].map(x=>'<span>'+x+'</span>').join('')})();
+$('#wheelsigns').innerHTML=SIGNS.map((s,i)=>{const a=i*Math.PI/6-Math.PI/2;return '<text x="'+(100+79*Math.cos(a)).toFixed(1)+'" y="'+(100+79*Math.sin(a)+6).toFixed(1)+'">'+s[1]+'</text>'}).join('');
+$('#tiles').innerHTML=[['kundli','☉','Kundli'],['matching','⚭','Match'],['horoscope','♌','Rashifal'],['panchang','☾','Panchang'],['reports','✦','Reports'],['tools','∑','Calc'],['consult','☎','Consult'],['learn','✎','Learn']].map(x=>'<button class="tile shine" data-go="'+x[0]+'"><i>'+x[1]+'</i>'+x[2]+'</button>').join('');
+$('#snap').innerHTML=SIGNS.map(s=>'<div class="sg"><i>'+s[1]+'</i><b>'+s[0]+'</b><small>'+s[2]+'</small></div>').join('');
+$('#hsigns').innerHTML=SIGNS.map((s,i)=>'<div class="sg'+(i===7?' sel':'')+'" data-i2="'+i+'"><i>'+s[1]+'</i><b>'+s[0]+'</b></div>').join('');
+$('#koota').innerHTML=[['Varna',1],['Vashya',1],['Tara',1],['Yoni',.75],['Graha Maitri',.8],['Gana',.83],['Bhakoot',0],['Nadi',1]].map(([a,v])=>'<div class="mut">'+a+'</div><div class="bar"><i style="--w:'+(v*100)+'%"></i></div>').join('');
+$('#chog').innerHTML=[['Udveg','#FF8A8A'],['Char','#8EC5FF'],['Labh','#6BE8B0'],['Amrit','#6BE8B0'],['Kaal','#FF8A8A'],['Shubh','#6BE8B0'],['Rog','#FF8A8A'],['Udveg','#FF8A8A']].map(([a,c],i)=>'<div class="blk" style="background:'+c+'33;color:'+c+';transition-delay:'+i*90+'ms">'+a+'</div>').join('');
+$('#rep').innerHTML=['Sade Sati','Mangal Dosha','Kaalsarp','Vimshottari','Varshphal','Transit','Gemstones','Baby Names'].map(x=>'<button class="card shine" style="text-align:left;margin:0;cursor:pointer;color:var(--ink)" data-toast="Opens the '+x+' report (demo)"><b>'+x+'</b><div class="mut">Open ›</div></button>').join('');
+$('#lessons').innerHTML=[['What is a birth chart?',100],['Signs, planets and houses',64],['Vedic vs Western',30],['Dashas and profections',0]].map(([a,p])=>'<div class="card row" style="gap:12px"><div class="ring" style="--p:'+p+'"><b>'+p+'%</b></div><div><b>'+a+'</b><div class="mut">5–10 min</div></div></div>').join('');
+$('#langs').innerHTML=[['en','English'],['ta','தமிழ்'],['hi','हिन्दी'],['te','తెలుగు'],['kn','ಕನ್ನಡ'],['ml','മലയാളം'],['mr','मराठी'],['bn','বাংলা']].map(([c,n])=>'<button class="chip" data-l="'+c+'">'+n+'</button>').join('');
+$('#parity').innerHTML=PARITY.map(([a,b,c])=>'<tr><td>'+a+'</td><td>'+b+'</td><td><span class="tag'+(c.startsWith('In')?'':' g')+'">'+c+'</span></td></tr>').join('');
+$('#gal').innerHTML=FR.filter(f=>f.id.startsWith('m')).map(f=>'<figure><img src="wf/'+f.id+'.png" alt="'+f.title+'" data-big="wf/'+f.id+'.png" loading="lazy"><figcaption>'+f.title+'</figcaption></figure>').join('');
+function buildNav(){$('#nav').innerHTML=SCREENS.map(s=>'<button data-go="'+s[0]+'" class="'+(s[0]===cur?'on':'')+'"><i>'+s[1]+'</i>'+(T[lang][s[0]]||s[2])+'</button>').join('')}
+function buildTabbar(){$('#tabbar').innerHTML=[['home','⌂'],['kundli','☉'],['horoscope','♌'],['panchang','☾'],['profile','☺']].map(([id,ic])=>'<button data-go="'+id+'" class="'+(id===cur?'on':'')+'"><i>'+ic+'</i>'+(T[lang][id]||id)+'</button>').join('')}
+function guide(id){const s=SCREENS.find(x=>x[0]===id);$('#guide').innerHTML='<h3>'+s[2]+' screen</h3><ul>'+s[3].map(x=>'<li>'+x+'</li>').join('')+'</ul><div style="margin-top:8px">'+s[4].map(x=>'<span class="tag">'+x+'</span>').join('')+'</div><div class="mut" style="margin-top:8px">Theme and motion: '+s[5]+'</div>'}
+// navigation with themed transitions
+function go(id){if(!SCREENS.find(s=>s[0]===id)||id===cur&&$('.screen.on'))return;const from=cur;cur=id;document.body.dataset.theme=id;
+ $$('.screen').forEach(el=>{const me=el.dataset.s===id;el.classList.toggle('on',me);el.classList.toggle('left',!me&&order.indexOf(el.dataset.s)<order.indexOf(id));el.classList.remove('go');if(me){el.scrollTop=0;requestAnimationFrame(()=>requestAnimationFrame(()=>{el.classList.add('go');enter(id,el)}))}});
+ $('#title').textContent=t(id);buildNav();buildTabbar();guide(id)}
+function enter(id,el){if(id==='consult')chat();if(id==='home'||id==='kundli'||id==='horoscope'){}if(id==='matching'&&!$('#mRes').hidden)runMatch();if(id==='tools')calc()}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){e.preventDefault();go(g.dataset.go)}const tt=e.target.closest('[data-toast]');if(tt)toast(tt.dataset.toast);const l=e.target.closest('[data-l]');if(l){if(['en','ta','hi'].includes(l.dataset.l)){lang=l.dataset.l;applyLang()}else toast(l.textContent+' is planned for phase 2')}});
+$('#langChip').onclick=()=>{lang=lang==='en'?'ta':lang==='ta'?'hi':'en';applyLang()};
+// kundli
+$('#advTog').onclick=e=>{const p=e.target.getAttribute('aria-pressed')==='true';e.target.setAttribute('aria-pressed',!p);$('#adv').hidden=p};
+$('#kGo').onclick=()=>{$('#kForm').hidden=true;$('#kRes').hidden=false;drawChart()};$('#kBack').onclick=()=>{$('#kForm').hidden=false;$('#kRes').hidden=true};
+$$('[data-kt]').forEach(b=>b.onclick=()=>{$$('[data-kt]').forEach(x=>x.classList.toggle('on',x===b));$$('[data-kp]').forEach(c=>c.hidden=c.dataset.kp!==b.dataset.kt);if(b.dataset.kt==='dasha'){const p=$('[data-kp=dasha]');p.classList.remove('go');requestAnimationFrame(()=>requestAnimationFrame(()=>p.classList.add('go')))}});
+function drawChart(){const g=$('#kchart');$$('#kchart rect,#kchart path').forEach((e,i)=>{const L=e.getTotalLength();e.style.strokeDasharray=L;e.style.strokeDashoffset=L;e.getBoundingClientRect();e.style.transition='stroke-dashoffset 1.6s cubic-bezier(.16,1,.3,1) '+i*.2+'s';e.style.strokeDashoffset=0});$$('#kplan text').forEach((e,i)=>{e.style.opacity=0;e.style.transition='opacity .5s '+(1+i*.12)+'s';requestAnimationFrame(()=>e.style.opacity=1)})}
+// horoscope
+const TXT={Daily:'Energy turns toward long-term work. Notice where effort feels chosen and where it feels automatic.',Weekly:'A steady week for planning. Small, reversible experiments beat big declarations.',Monthly:'Themes of home and work meet. Name one commitment you want to keep and one to release.','Yearly':'A year to review direction. Revisit your answers each quarter and compare plans with what happened.'};
+let hs=7,hp='Daily';function hUp(){$('#hTitle').textContent=SIGNS[hs][0]+' · '+hp;$('#hText').textContent=TXT[hp==='Yearly 2027'?'Yearly':hp]}
+$$('#hperiod .chip').forEach(b=>b.onclick=()=>{$$('#hperiod .chip').forEach(x=>x.classList.toggle('on',x===b));hp=b.dataset.p;hUp()});
+$('#hsigns').onclick=e=>{const c=e.target.closest('[data-i2]');if(!c)return;hs=+c.dataset.i2;$$('#hsigns .sg').forEach(x=>x.classList.toggle('sel',x===c));$$('#hsigns .sg').forEach(x=>x.style.boxShadow=x===c?'0 0 18px var(--ac)':'');hUp()};
+$$('[data-lens]').forEach(b=>b.onclick=()=>{$$('[data-lens]').forEach(x=>x.classList.toggle('on',x===b))});$('#journal').onclick=()=>toast('Saved to your Sky Journal (demo)');
+// matching
+function runMatch(){const arc=$('#gArc');arc.style.strokeDashoffset=230;arc.getBoundingClientRect();arc.style.strokeDashoffset=230*(1-26/36);let n=0;const id=setInterval(()=>{n++;$('#gNum').textContent=n;if(n>=26)clearInterval(id)},55);const r=$('#mRes');r.classList.remove('go');requestAnimationFrame(()=>requestAnimationFrame(()=>r.classList.add('go')))}
+$('#mGo').onclick=()=>{$('#mRes').hidden=false;runMatch();$('.screen[data-s=matching]').scrollTo({top:300,behavior:'smooth'})};
+// consult chat
+let ch;function chat(){clearInterval(ch);const el=$('#chat'),ans='Saturn in the 7th house in a Parashari reading points to relationships that grow through patience. So what? Commitments may feel weighty. Now what? Name one pattern you want to explore.';el.innerHTML='<div class="bub a"><span class="dots"><span></span><span></span><span></span></span></div>';setTimeout(()=>{let i=0;ch=setInterval(()=>{el.innerHTML='<div class="bub a">'+ans.slice(0,++i)+'</div>';if(i>=ans.length)clearInterval(ch)},22)},900)}
+$('#replay').onclick=chat;$$('[data-ct]').forEach(b=>b.onclick=()=>{$$('[data-ct]').forEach(x=>x.classList.toggle('on',x===b));$('#ctAi').hidden=b.dataset.ct!=='ai';$('#ctHu').hidden=b.dataset.ct!=='human'});
+// tools
+function sunSign(d){const m=d.getMonth()+1,day=d.getDate();const R=[[3,21,'Aries'],[4,20,'Taurus'],[5,21,'Gemini'],[6,21,'Cancer'],[7,23,'Leo'],[8,23,'Virgo'],[9,23,'Libra'],[10,23,'Scorpio'],[11,22,'Sagittarius'],[12,22,'Capricorn'],[1,20,'Aquarius'],[2,19,'Pisces']];let r='Capricorn';for(const [mm,dd,n] of R){if(m>mm||(m===mm&&day>=dd))r=n}if(m===1&&day<20)r='Capricorn';return r}
+function lifePath(s){let n=s.replace(/\D/g,'').split('').reduce((a,b)=>a+ +b,0);while(n>9&&![11,22,33].includes(n))n=String(n).split('').reduce((a,b)=>a+ +b,0);return n}
+function calc(){const a=$('#dob1').value,b=$('#dob2').value;if(a){const s=sunSign(new Date(a+'T00:00:00'));const g=SIGNS.find(x=>x[0]===s);$('#sunOut').textContent=g[1]+' '+s}if(b)$('#lpOut').textContent='Life path '+lifePath(b)}
+$('#dob1').oninput=calc;$('#dob2').oninput=calc;
+// auth
+$$('[data-at]').forEach(b=>b.onclick=()=>{$$('[data-at]').forEach(x=>x.classList.toggle('on',x===b));const r=b.dataset.at==='register';$('#aReg').hidden=!r;$('#aTitle').textContent=r?'Create your account':'Welcome back'});$('#aGo').onclick=()=>toast('Demo only — no account was created.');
+$$('.tog').forEach(b=>b.addEventListener('click',()=>{if(b.id!=='advTog')b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true')}));
+// drag-to-scroll carousels
+$$('.snap').forEach(s=>{let d=false,x=0,l=0;s.addEventListener('pointerdown',e=>{d=true;x=e.clientX;l=s.scrollLeft;s.style.scrollSnapType='none'});addEventListener('pointerup',()=>{if(d){d=false;s.style.scrollSnapType='x mandatory'}});s.addEventListener('pointermove',e=>{if(d)s.scrollLeft=l-(e.clientX-x)})});
+// phone tilt + stars
+const ph=$('#phone');document.addEventListener('pointermove',e=>{if(innerWidth<900)return;const r=ph.getBoundingClientRect(),x=(e.clientX-(r.left+r.width/2))/innerWidth,y=(e.clientY-(r.top+r.height/2))/innerHeight;ph.style.transform='rotateY('+(x*10).toFixed(2)+'deg) rotateX('+(-y*8).toFixed(2)+'deg)'});
+const cv=$('#stars'),cx=cv.getContext('2d');let S=[];function sz(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;S=Array.from({length:70},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,z:Math.random()*.9+.1}))}sz();addEventListener('resize',sz);
+(function f(){cx.clearRect(0,0,cv.width,cv.height);const c=getComputedStyle($('#glass')).getPropertyValue('--ac').trim()||'#F2B63C';S.forEach(s=>{s.y=(s.y+.12*s.z)%cv.height;cx.globalAlpha=(.25+s.z*.6)*(.6+.4*Math.sin(Date.now()/500+s.x));cx.fillStyle=c;cx.fillRect(s.x,s.y,s.z*2,s.z*2)});requestAnimationFrame(f)})();
+// gallery lightbox
+$('#gal').onclick=e=>{const i=e.target.closest('[data-big]');if(i){$('#lbi').src=i.dataset.big;$('#lb').showModal()}};$('#lb').onclick=()=>$('#lb').close();
+// video: respect reduced motion / data saver
+const bv=$('#bgvid');if(matchMedia('(prefers-reduced-motion: reduce)').matches||(navigator.connection&&navigator.connection.saveData))bv.pause();
+// boot
+try{const q=localStorage.getItem('aw-lang');if(q&&T[q])lang=q}catch(e){}
+$$('.screen').forEach(s=>s.classList.remove('on'));cur='';applyLang();hUp();calc();go(location.hash.slice(1)||'home');
+</script></body></html>
