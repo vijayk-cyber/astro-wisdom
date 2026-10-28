@@ -95,6 +95,17 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#F2B63C;color:#241a05;padding:10px 18px;border-radius:999px;font-weight:700;z-index:90;display:none}
 .gal{display:flex;gap:16px;overflow-x:auto;padding:6px 2px 14px}.gal figure{flex:0 0 190px;margin:0;background:rgba(20,26,60,.62);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:8px;transition:transform .3s,box-shadow .3s}.gal figure:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(242,182,60,.3)}.gal img{width:100%;border-radius:10px;background:#f4f5f8;cursor:zoom-in}.gal figcaption{font-size:12px;margin-top:6px;color:#d3d8f5}
 .full{grid-column:1/-1}dialog{border:0;border-radius:16px;padding:14px 64px 12px;background:#f4f5f8;max-width:94vw;overflow:hidden;color:#2b2f45}dialog::backdrop{background:rgba(3,5,18,.8)}dialog img{max-height:80vh;max-width:100%;display:block;margin:auto}.cap2{text-align:center;font-size:13px;font-weight:600;margin-top:8px}.nv{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:0;background:#1b1405;color:#FFD66B;font-size:26px;cursor:pointer}.nv.prev{left:10px}.nv.next{right:10px}.xx{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:0;background:#000c;color:#fff;font-size:18px;cursor:pointer}
+.ph{position:relative;border-radius:22px;overflow:hidden;margin-bottom:12px;min-height:118px;isolation:isolate}
+.ph:before{content:"";position:absolute;inset:-8%;background-size:cover;background-position:center var(--py,50%);animation:kb 18s ease-in-out infinite alternate;z-index:-2}
+.ph:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(6,8,22,.74));z-index:-1}
+.ph1:before{background-image:url(assets/photos/golden-cosmos.jpg),url(assets/art-wheel.svg)}.ph2:before{background-image:url(assets/photos/planets-nebula.jpg),url(assets/art-cosmos.svg)}.ph3:before{background-image:url(assets/photos/solar-system.jpg),url(assets/art-cosmos.svg)}.ph4:before{background-image:url(assets/photos/nasa-saturn.jpg),url(assets/art-cosmos.svg)}.ph5:before{background-image:url(assets/photos/nasa-nebula.jpg),url(assets/art-cosmos.svg)}.ph6:before{background-image:url(assets/photos/commons-cosmology.jpg),url(assets/art-book.svg)}
+.ph .txt{position:relative;padding:50px 14px 12px;color:#fff;text-shadow:0 2px 10px #000}.ph .txt b{display:block;font:800 19px/1.15 Fraunces,serif}.ph .txt span{font-size:12px;opacity:.9}
+.ph .glint{position:absolute;inset:0;z-index:0;background:linear-gradient(110deg,transparent 35%,rgba(255,236,170,.38) 50%,transparent 65%);transform:translateX(-120%);animation:gl 6s ease-in-out infinite;pointer-events:none}@keyframes gl{55%,100%{transform:translateX(120%)}}
+@keyframes kb{from{transform:scale(1) translate(0,0)}to{transform:scale(1.14) translate(-2%,-2%)}}
+.hero-card.ph{color:#fff}.hero-card.ph h3,.hero-card.ph p{position:relative;z-index:1;text-shadow:0 2px 10px #000}.hero-card.ph .wheel{z-index:0}.hero-card.ph .cta{position:relative;z-index:1}
+.rip{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:rp .6s ease-out forwards;pointer-events:none}@keyframes rp{to{transform:scale(4);opacity:0}}
+.hint{position:absolute;left:0;right:0;bottom:78px;text-align:center;z-index:24;font-size:10.5px;opacity:.7;pointer-events:none;animation:hn 3s ease-in-out 3 forwards}@keyframes hn{0%,100%{opacity:0}30%,70%{opacity:.8}}
+body.embed header.top,body.embed .left-col,body.embed .guide-col,body.embed .full{display:none}body.embed .wrap{display:block;padding:6px}body.embed .phone-wrap{position:static}body.embed .pagetint{opacity:.35}
 @media(max-width:1100px){.wrap{grid-template-columns:300px 1fr}.guide-col{grid-column:1/-1}}
 @media(max-width:760px){.wrap{grid-template-columns:1fr}.phone-wrap{position:static;order:-1}.phone{width:min(370px,100%)}.left-col{order:2}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -120,7 +131,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
     <!-- HOME -->
     <div class="screen" data-s="home">
      <div class="marq"><div id="marq"></div></div>
-     <div class="hero-card shine"><svg class="wheel" viewBox="0 0 200 200"><g fill="none" stroke="var(--ac)" stroke-width="1.6"><circle cx="100" cy="100" r="94"/><circle cx="100" cy="100" r="64"/><circle cx="100" cy="100" r="30"/></g><g id="wheelsigns" fill="var(--ac)" font-size="16" text-anchor="middle"></g></svg>
+     <div class="hero-card ph ph1 shine"><span class="glint"></span><svg class="wheel" viewBox="0 0 200 200"><g fill="none" stroke="var(--ac)" stroke-width="1.6"><circle cx="100" cy="100" r="94"/><circle cx="100" cy="100" r="64"/><circle cx="100" cy="100" r="30"/></g><g id="wheelsigns" fill="var(--ac)" font-size="16" text-anchor="middle"></g></svg>
       <h3 data-i="h_hero">Free Kundli in 60 seconds</h3><p class="mut" data-i="h_hero2">Birth chart with the method named.</p><button class="cta" style="width:auto;padding:9px 16px" data-go="kundli" data-i="create">Create my sky</button></div>
      <div class="tiles" id="tiles"></div>
      <div class="row" style="justify-content:space-between"><h4 style="margin:4px 0 8px;font:700 15px Fraunces,serif" data-i="today">Today's horoscope</h4><a href="#" data-go="horoscope" style="font-size:12px" data-i="all">All</a></div>
@@ -133,7 +144,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
     </div>
 
     <!-- KUNDLI -->
-    <div class="screen" data-s="kundli">
+    <div class="screen" data-s="kundli"><div class="ph ph2"><span class="glint"></span><div class="txt"><b>Birth chart</b><span>Method named on every result</span></div></div>
      <div id="kForm"><div class="card"><h4 data-i="free_kundli">Free Kundli</h4>
        <label>Name</label><input class="in" value="Priya"><div class="g2"><div><label>Date of birth</label><input class="in" type="date" value="1994-03-14"></div><div><label>Time</label><input class="in" type="time" value="06:45"></div></div>
        <label>Place of birth</label><input class="in" value="Chennai, Tamil Nadu, IN">
@@ -149,7 +160,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
     </div>
 
     <!-- HOROSCOPE -->
-    <div class="screen" data-s="horoscope">
+    <div class="screen" data-s="horoscope"><div class="ph ph3"><span class="glint"></span><div class="txt"><b>Your sign, your lens</b><span>Daily to yearly, Vedic or Western</span></div></div>
      <div class="tabs" id="hperiod"><button class="chip on" data-p="Daily">Daily</button><button class="chip" data-p="Weekly">Weekly</button><button class="chip" data-p="Monthly">Monthly</button><button class="chip" data-p="Yearly">Yearly 2027</button></div>
      <div class="snap" id="hsigns"></div>
      <div class="row" style="margin-bottom:10px"><button class="chip on" id="lens" data-lens="0">Vedic · Moon sign</button><button class="chip" data-lens="1">Western · Sun sign</button></div>
@@ -159,7 +170,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
     </div>
 
     <!-- MATCHING -->
-    <div class="screen" data-s="matching">
+    <div class="screen" data-s="matching"><div class="ph ph1"><span class="glint"></span><div class="txt"><b>Compatibility</b><span>A traditional score, never a verdict</span></div></div>
      <div class="card"><h4 data-i="matching">Horoscope Matching</h4><div class="g2"><div><label>Partner A</label><input class="in" value="Arun"><input class="in" type="date" value="1992-08-02"></div><div><label>Partner B</label><input class="in" value="Priya"><input class="in" type="date" value="1994-03-14"></div></div><button class="cta" id="mGo" data-i="match">Match (Ashtakoot · 36)</button></div>
      <div class="card" id="mRes" hidden><div class="gauge"><svg viewBox="0 0 170 96"><path d="M12 90A73 73 0 0 1 158 90" fill="none" stroke="color-mix(in srgb,var(--ink) 18%,transparent)" stroke-width="12" stroke-linecap="round"/><path id="gArc" d="M12 90A73 73 0 0 1 158 90" fill="none" stroke="var(--ac)" stroke-width="12" stroke-linecap="round" stroke-dasharray="230" stroke-dashoffset="230" style="transition:stroke-dashoffset 1.6s cubic-bezier(.16,1,.3,1)"/></svg><div class="num"><span id="gNum">0</span> / 36</div></div>
       <div class="mut" style="text-align:center;margin:6px 0 8px">Traditional compatibility score (sample)</div><div class="row w" style="justify-content:center;margin-bottom:8px"><span class="chip on">Mangal dosha: none</span><span class="chip">Western lens ⇄</span></div>
@@ -167,7 +178,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
     </div>
 
     <!-- PANCHANG -->
-    <div class="screen" data-s="panchang">
+    <div class="screen" data-s="panchang"><div class="ph ph2"><span class="glint"></span><div class="txt"><b>Today's sky</b><span>Computed for your city</span></div></div>
      <div class="row" style="margin-bottom:10px"><button class="chip on">New Delhi ▾</button><button class="chip">Tue 28 Oct ▾</button></div>
      <div class="card"><h4 data-i="panchang">Panchang</h4><table><tr><td>Tithi</td><td class="mut">from ephemeris</td></tr><tr><td>Nakshatra</td><td class="mut">from ephemeris</td></tr><tr><td>Yoga · Karana</td><td class="mut">from ephemeris</td></tr><tr><td>Sunrise · Sunset</td><td class="mut">06:30 · 17:45</td></tr></table></div>
      <div class="card"><h4>Day timeline (sample)</h4><div class="tl"><i style="left:58%;width:14%;background:#D64545"></i><i style="left:14%;width:10%;background:#2EAD7B"></i><i style="left:38%;width:6%;background:#FFC857"></i><span class="now"></span></div><div class="row w"><span class="tag" style="background:#D6454533;color:#ff9a9a">Rahu Kaal</span><span class="tag">Abhijit</span><span class="tag g">Now</span></div></div>
@@ -175,7 +186,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
     </div>
 
     <!-- CONSULT -->
-    <div class="screen" data-s="consult">
+    <div class="screen" data-s="consult"><div class="ph ph1"><span class="glint"></span><div class="txt"><b>Ask with a method</b><span>AI Guide or a verified practitioner</span></div></div>
      <div class="tabs"><button class="chip on" data-ct="ai" data-i="ai_guide">AI Guide</button><button class="chip" data-ct="human" data-i="human">Human sessions</button></div>
      <div id="ctAi"><div class="card"><div class="bub u">Why is Saturn in my 7th house a big deal?</div><div id="chat"></div><div class="mut" style="margin-top:8px">Using: Vedic · Parashari v2.3 · answer cites its rule.</div></div><button class="cta ghost" id="replay">Replay answer</button></div>
      <div id="ctHu" hidden><div class="card shine"><h4>Dr. A. Raman · Parashari ✓</h4><div class="mut">★ 4.8 · Tamil · English</div><div class="row w" style="margin:8px 0"><span class="tag g">20 min ₹899</span><span class="tag g">40 min ₹1,599</span></div><button class="cta" data-toast="Booking is a demo">Book video</button></div>
@@ -183,21 +194,21 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
     </div>
 
     <!-- REPORTS -->
-    <div class="screen" data-s="reports">
+    <div class="screen" data-s="reports"><div class="ph ph4"><span class="glint"></span><div class="txt"><b>Free reports</b><span>Patterns to understand, not curses</span></div></div>
      <div class="card"><h4 data-i="reports">Free reports</h4><div class="mut">Each is a labelled calculation. Doshas are shown as patterns, not curses.</div></div>
      <div class="g2" id="rep"></div>
      <div class="card" style="margin-top:12px"><h4>Gemstones</h4><div class="mut">Shown as cultural practice, never as a cure. No selling here.</div></div>
     </div>
 
     <!-- TOOLS -->
-    <div class="screen" data-s="tools">
+    <div class="screen" data-s="tools"><div class="ph ph5"><span class="glint"></span><div class="txt"><b>Quick calculators</b><span>Sun sign, life path and more</span></div></div>
      <div class="card"><h4>Sun sign</h4><input class="in" type="date" id="dob1" value="1994-03-14"><div id="sunOut" style="font:800 20px Fraunces,serif"></div><div class="mut">Western (tropical) Sun sign by date. A Vedic sign needs time and place.</div></div>
      <div class="card"><h4>Life path number</h4><input class="in" type="date" id="dob2" value="1994-03-14"><div id="lpOut" style="font:800 20px Fraunces,serif"></div><div class="mut">Numerology: digits of the date reduced (11, 22, 33 kept). A separate method.</div></div>
      <div class="g2"><button class="cta ghost shine" data-go="kundli">Moon sign →</button><button class="cta ghost shine" data-go="kundli">Ascendant →</button><button class="cta ghost shine" data-go="kundli">Nakshatra →</button><button class="cta ghost shine" data-go="matching">Love match →</button></div>
     </div>
 
     <!-- LEARN -->
-    <div class="screen" data-s="learn">
+    <div class="screen" data-s="learn"><div class="ph ph6"><span class="glint"></span><div class="txt"><b>Learn the sky</b><span>Five minutes at a time</span></div></div>
      <div class="card"><h4 data-i="learn">Sky School</h4><div class="mut">5–10 minute lessons.</div></div>
      <div id="lessons"></div>
     </div>
@@ -211,7 +222,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
      <div class="card"><h4>Settings</h4><div class="row" style="justify-content:space-between;margin:6px 0"><span>No-predictions mode</span><button class="tog" aria-pressed="false" aria-label="No predictions"></button></div><div class="row" style="justify-content:space-between;margin:6px 0"><span>Gentle daily reminder</span><button class="tog" aria-pressed="true" aria-label="Reminder"></button></div><div class="row" style="justify-content:space-between;margin:6px 0"><span>Share cards hide birth data</span><button class="tog" aria-pressed="true" aria-label="Privacy"></button></div></div>
     </div>
    </div>
-   <button class="fab" data-go="consult" aria-label="Talk">☎</button>
+   <div class="hint">‹ swipe to change screen ›</div><button class="fab" data-go="consult" aria-label="Talk">☎</button>
    <nav class="tabbar" id="tabbar"></nav>
   </div></div></section>
 
@@ -220,7 +231,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
   <div class="panel" style="margin-top:14px"><h3>Feature parity with leading astrology apps</h3><table><thead><tr><th>Feature</th><th>Screen</th><th>Status</th></tr></thead><tbody id="parity"></tbody></table></div>
  </section>
 
- <section class="full"><div class="panel"><h3>Mobile wireframes (18)</h3><div class="gal" id="gal"></div></div></section>
+ <section class="full"><div class="panel"><h3>Mobile wireframes (18)</h3><div class="gal" id="gal"></div><p class="mut" style="font-size:12px;opacity:.8;margin:8px 0 0">Images: NASA/JPL/Space Science Institute (Cassini, Saturn, PIA06193) and NASA/JPL-Caltech (Eagle Nebula, WISE, PIA25433), both NASA public-domain imagery; “Earth in a cosmology” from Wikimedia Commons (public domain); plus images supplied by the project owner.</p></div></section>
 </main>
 <dialog id="lb"><button class="xx" id="lbX" aria-label="Close">×</button><button class="nv prev" id="lbPrev" aria-label="Previous">‹</button><img id="lbi" alt=""><button class="nv next" id="lbNext" aria-label="Next">›</button><div class="cap2" id="lbCap"></div></dialog><div class="toast" id="toast"></div>
 
@@ -309,6 +320,13 @@ $('#lbPrev').onclick=()=>showLb(li-1);$('#lbNext').onclick=()=>showLb(li+1);$('#
 addEventListener('keydown',e=>{if(!$('#lb').open)return;if(e.key==='ArrowLeft')showLb(li-1);if(e.key==='ArrowRight')showLb(li+1)});
 // video: respect reduced motion / data saver
 const bv=$('#bgvid');if(matchMedia('(prefers-reduced-motion: reduce)').matches||(navigator.connection&&navigator.connection.saveData))bv.pause();
+
+// ----- latest-design interactions -----
+if(/embed=1/.test(location.search))document.body.classList.add('embed');
+$('#screens').addEventListener('scroll',e=>{const el=e.target,b=el.querySelector&&el.querySelector('.ph');if(b)b.style.setProperty('--py',(50+Math.min(40,el.scrollTop/5))+'%')},true);
+(()=>{let sx=null;const gl=$('#glass');gl.addEventListener('pointerdown',e=>{sx=e.target.closest('.snap,input,.tabs,.tabbar,button.tog')?null:e.clientX});gl.addEventListener('pointerup',e=>{if(sx===null)return;const d=e.clientX-sx;sx=null;if(Math.abs(d)>90){const i=order.indexOf(cur);go(order[(i+(d<0?1:-1)+order.length)%order.length])}})})();
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('.cta,.tile,.chip,.card.shine');if(!b)return;const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height)/4,sp=document.createElement('span');sp.className='rip';sp.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(e.clientX-r.left-s/2)+'px;top:'+(e.clientY-r.top-s/2)+'px';if(getComputedStyle(b).position==='static')b.style.position='relative';b.style.overflow='hidden';b.appendChild(sp);setTimeout(()=>sp.remove(),650)});
+addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(h)go(h)});
 // boot
 try{const q=localStorage.getItem('aw-lang');if(q&&T[q])lang=q}catch(e){}
 $$('.screen').forEach(s=>s.classList.remove('on'));cur='';applyLang();hUp();calc();go(location.hash.slice(1)||'home');
