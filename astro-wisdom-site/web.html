@@ -111,7 +111,19 @@ footer{max-width:1280px;margin:0 auto;padding:10px 20px 40px;color:#a3a9d6;font-
 <section class="page" data-pg="panchang">
  <div class="hero h2"><span class="glint"></span><h1>Today's Panchang</h1><p class="lead">Computed for your city from the same ephemeris. Traditional timing, not advice.</p><div class="row w"><span class="chip on">New Delhi ▾</span><span class="chip">Tue 28 Oct ▾</span></div></div>
  <div class="g g2"><div class="card"><h3>Five limbs</h3><table><tr><td>Tithi</td><td class="mut">from ephemeris</td></tr><tr><td>Nakshatra</td><td class="mut">from ephemeris</td></tr><tr><td>Yoga · Karana</td><td class="mut">from ephemeris</td></tr><tr><td>Sunrise · Sunset</td><td class="mut">06:30 · 17:45</td></tr></table></div>
- <div class="card"><h3>Day timeline (sample)</h3><div class="tl"><i style="left:58%;width:14%;background:#D64545"></i><i style="left:14%;width:10%;background:#2EAD7B"></i><i style="left:38%;width:6%;background:#FFC857"></i><span class="now"></span></div><div class="row w"><span class="tag" style="background:#D6454533;color:#ff9a9a">Rahu Kaal</span><span class="tag">Abhijit</span><span class="tag">Now</span></div></div></div>
+ <div class="card"><h3>Day timeline (sample)</h3><svg class="sunarc" viewBox="0 0 400 235" width="100%" aria-label="Day timeline: sunrise to sunset">
+<defs><filter id="glowW" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<linearGradient id="skyW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFC857" stop-opacity=".22"/><stop offset="1" stop-color="#FFC857" stop-opacity="0"/></linearGradient></defs>
+<path d="M40 200A160 160 0 0 1 360 200Z" fill="url(#skyW)"/>
+<path pathLength="100" d="M40 200A160 160 0 0 1 360 200" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="18" stroke-linecap="round"/>
+<path pathLength="100" d="M40 200A160 160 0 0 1 360 200" fill="none" stroke="#FFC857" stroke-width="18" stroke-dasharray="10 90" stroke-dashoffset="-14"/>
+<path pathLength="100" d="M40 200A160 160 0 0 1 360 200" fill="none" stroke="#2EAD7B" stroke-width="18" stroke-dasharray="6 94" stroke-dashoffset="-47"/>
+<path pathLength="100" d="M40 200A160 160 0 0 1 360 200" fill="none" stroke="#E5524E" stroke-width="18" stroke-dasharray="14 86" stroke-dashoffset="-58"/>
+<g stroke="rgba(255,255,255,.35)" stroke-width="1.5"><path id="ticksW" d=""/></g>
+<line x1="20" y1="200" x2="380" y2="200" stroke="rgba(255,255,255,.25)"/>
+<text x="40" y="222" text-anchor="middle" fill="#fff" opacity=".8" font-size="11">06:30</text><text x="360" y="222" text-anchor="middle" fill="#fff" opacity=".8" font-size="11">17:45</text><text x="200" y="22" text-anchor="middle" fill="#fff" opacity=".7" font-size="11">Noon</text>
+<text x="200" y="150" text-anchor="middle" fill="#fff" font-size="30" font-weight="800" font-family="Fraunces,serif" id="clkW">12:00</text><text x="200" y="170" text-anchor="middle" fill="#fff" opacity=".7" font-size="11">sample day</text>
+<g id="sunW" filter="url(#glowW)"><circle r="13" fill="#FFE9A8"/><circle r="7" fill="#fff"/></g></svg><div class="row w" style="justify-content:center;margin-top:6px"><span class="tag" style="background:#E5524E33;color:#ff9a9a">Rahu Kaal 13:00–14:35</span><span class="tag" style="background:#2EAD7B33;color:#7be0b0">Abhijit 11:45–12:30</span><span class="tag" style="background:#FFC85733;color:#ffd98a">Gulika 08:05–09:10</span></div></div></div>
  <div class="card" style="margin-top:16px"><h3>Choghadiya · day</h3><div class="blocks" id="chog"></div></div>
 </section>
 
@@ -183,6 +195,9 @@ $$('[data-lt]').forEach(b=>b.onclick=()=>{$$('[data-lt]').forEach(x=>x.classList
 $('#lessonPlay').onclick=()=>{const v=$('#lessonVid');if(v.paused){v.play();$('#lessonPlay').textContent='❚❚'}else{v.pause();$('#lessonPlay').textContent='▶'}};
 $$('[data-seat]').forEach(b=>b.onclick=()=>{b.textContent='Seat reserved ✓ (demo)';toast('Seat reserved (demo only, nothing is sent)')});
 $$('[data-zs]').forEach(b=>b.onclick=()=>{$$('[data-zs]').forEach(x=>x.classList.toggle('on',x===b));$('#znote').textContent=b.dataset.zs==='s'?'Sidereal (Vedic) signs depend on the ayanamsa and the full birth calculation. Open Kundli to see yours.':'Dates shown are Western (tropical). A Vedic (sidereal) sign depends on the full birth calculation and often differs.'});
+
+// sun-arc day timeline
+(function(){['W','A'].forEach(function(u){var s=document.getElementById('sun'+u);if(!s)return;var c=document.getElementById('clk'+u);function f(){var k=.5+.42*Math.sin(Date.now()/4200),a=Math.PI*k,x=200-160*Math.cos(a),y=200-160*Math.sin(a);s.setAttribute('transform','translate('+x.toFixed(1)+' '+y.toFixed(1)+')');var m=6*60+30+Math.round(k*675);c.textContent=String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');requestAnimationFrame(f)}f()})})();
 // parallax hero + card tilt
 addEventListener('scroll',()=>{const h=$('.page.on .hero');if(h)h.style.setProperty('--py',(50+Math.min(30,scrollY/10))+'%')},{passive:true});
 document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.card');if(!c||innerWidth<1000)return;const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform='perspective(900px) rotateY('+(x*4).toFixed(2)+'deg) rotateX('+(-y*4).toFixed(2)+'deg) translateY(-3px)'},{passive:true});
