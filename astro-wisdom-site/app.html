@@ -116,13 +116,19 @@ body.embed header.top,body.embed .left-col,body.embed .guide-col,body.embed .ful
  .screen{padding:calc(70px + env(safe-area-inset-top)) 14px calc(96px + env(safe-area-inset-bottom))}
  .tabbar{left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom))}.fab{bottom:calc(84px + env(safe-area-inset-bottom))}.hint{display:none}
 }
+.bar-in{max-width:1240px}
+nav.links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1}nav.links::-webkit-scrollbar{display:none}
+nav.links a{color:#a3a9d6;text-decoration:none;font-size:14px;padding:8px 10px;border-radius:8px;white-space:nowrap}nav.links a:hover,nav.links a.on{color:#EEF0FF;background:rgba(242,182,60,.18)}nav.links a.on{color:#FFD66B;font-weight:700}
+.langs{display:flex;border:1px solid rgba(255,255,255,.2);border-radius:999px;overflow:hidden}.langs button{background:none;border:0;color:#a3a9d6;padding:6px 10px;font:600 12.5px inherit;font-family:inherit;cursor:pointer}.langs button[aria-pressed=true]{background:#F2B63C;color:#1b1405;box-shadow:0 0 18px rgba(242,182,60,.45)}
+.panel,.card{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s,border-color .35s}.left-col .panel:hover,.guide-col .panel:hover{transform:translateY(-4px);border-color:#E0A92A;box-shadow:0 18px 44px rgba(242,182,60,.28)}
+h2:after{content:"";display:block;width:64px;height:3px;border-radius:3px;margin-top:10px;background:linear-gradient(90deg,#E8B86A,#FFF4C9,#E8B86A);background-size:250% 100%;animation:gs 4s linear infinite}
 @media(max-width:1100px){.wrap{grid-template-columns:300px 1fr}.guide-col{grid-column:1/-1}}
 @media(max-width:760px){.wrap{grid-template-columns:1fr}.phone-wrap{position:static;order:-1}.phone{width:min(370px,100%)}.left-col{order:2}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head>
 <body data-theme="home">
 <video class="pagevid" id="bgvid" autoplay muted loop playsinline preload="metadata" poster="assets/hero-bg-poster.jpg" aria-hidden="true"><source src="assets/hero-bg.mp4" type="video/mp4"></video><div class="pagetint"></div>
-<header class="top"><div class="bar-in"><a class="brand" href="index.html">ASTRO WISDOM™</a><span class="mut" style="font-size:13px;opacity:.8">Mobile app prototype</span><span class="sp"></span><a class="btn" href="index.html">← Blueprint site</a><button class="btn" data-go="profile" data-i="login"></button><button class="btn pri" data-go="profile" data-i="register"></button></div></header>
+<header class="top"><div class="bar-in"><a class="brand" href="index.html">ASTRO WISDOM™</a><nav class="links" id="sitenav"><a href="index.html#overview" data-n="0"></a><a href="index.html#analysis" data-n="1"></a><a href="index.html#benchmark" data-n="2"></a><a href="index.html#apis" data-n="3"></a><a href="index.html#costs" data-n="4"></a><a href="index.html#design" data-n="5"></a><a href="index.html#pages" data-n="6"></a><a href="index.html#motion" data-n="7"></a><a href="index.html#wireframes" data-n="8"></a><a href="index.html#images" data-n="9"></a><a href="index.html#docs" data-n="10"></a><a href="app.html" class="on" data-n="11"></a></nav><div class="langs" role="group" aria-label="Language"><button data-lang="en" aria-pressed="true">EN</button><button data-lang="ta" aria-pressed="false">தமிழ்</button><button data-lang="hi" aria-pressed="false">हिन्दी</button></div><button class="btn" data-go="profile" data-i="login"></button><button class="btn pri" data-go="profile" data-i="register"></button></div></header>
 
 <main class="wrap">
  <section class="left-col">
@@ -272,7 +278,7 @@ const PARITY=[['Free Kundli','Kundli','In prototype'],['Horoscope matching','Mat
 let lang='en',cur='home',order=SCREENS.map(s=>s[0]);
 const t=k=>(T[lang][k]??T.en[k]??k);
 function toast(m){const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',2200)}
-function applyLang(){document.documentElement.lang=lang;$$('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));$('#langChip').textContent=lang.toUpperCase();$$('#langs .chip').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));$('#title').textContent=t(cur);buildNav();buildTabbar();try{localStorage.setItem('aw-lang',lang)}catch(e){}}
+function applyLang(){document.documentElement.lang=lang;$$('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));$('#langChip').textContent=lang.toUpperCase();$$('#langs .chip').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));$('#title').textContent=t(cur);buildNav();buildTabbar();if($('#sitenav'))navLang();try{localStorage.setItem('aw-lang',lang)}catch(e){}}
 // build UI pieces
 $('#marq').innerHTML=(()=>{const L=['English','தமிழ்','हिन्दी','తెలుగు','ಕನ್ನಡ','മലയാളം','मराठी','বাংলা','ગુજરાતી','ਪੰਜਾਬੀ','ଓଡ଼ିଆ','اردو'];return [...L,...L].map(x=>'<span>'+x+'</span>').join('')})();
 $('#wheelsigns').innerHTML=SIGNS.map((s,i)=>{const a=i*Math.PI/6-Math.PI/2;return '<text x="'+(100+79*Math.cos(a)).toFixed(1)+'" y="'+(100+79*Math.sin(a)+6).toFixed(1)+'">'+s[1]+'</text>'}).join('');
@@ -350,7 +356,12 @@ $('#zgrid').innerHTML=SIGNS.map(s=>'<div class="sg" style="flex:none"><i>'+s[1]+
 $$('[data-zs]').forEach(b=>b.onclick=()=>{$$('[data-zs]').forEach(x=>x.classList.toggle('on',x===b));$('#znote').textContent=b.dataset.zs==='s'?'Sidereal (Vedic) signs depend on the ayanamsa and the full birth calculation. Open Kundli to see yours.':'Dates shown are Western (tropical). A Vedic (sidereal) sign depends on the full birth calculation and often differs.'});
 $('#lessonPlay').onclick=()=>{const v=$('#lessonVid');if(v.paused){v.play();$('#lessonPlay').textContent='❚❚';v.controls=true}else{v.pause();$('#lessonPlay').textContent='▶'}};
 $$('[data-seat]').forEach(b=>b.onclick=()=>{b.textContent='Seat reserved ✓ (demo)';toast('Seat reserved (demo only, nothing is sent)')});
+
+// website-style header: translated menu and language switch
+const NAV={en:['Overview','Analysis','Benchmark','APIs','Costs','Design','Pages','Motion','Wireframes','Images','Documents','Mobile app'],ta:['மேலோட்டம்','பகுப்பாய்வு','ஒப்பீடு','API சேவைகள்','செலவுகள்','வடிவமைப்பு','பக்கங்கள்','அசைவூட்டம்','வயர்ஃப்ரேம்கள்','படங்கள்','ஆவணங்கள்','மொபைல் செயலி'],hi:['अवलोकन','विश्लेषण','तुलना','API सेवाएँ','लागत','डिज़ाइन','पेज','एनिमेशन','वायरफ्रेम','चित्र','दस्तावेज़','मोबाइल ऐप']};
+function navLang(){$$('#sitenav a').forEach(a=>a.textContent=NAV[lang][+a.dataset.n]);$$('.langs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang))}
+$$('.langs button').forEach(b=>b.onclick=()=>{lang=b.dataset.lang;applyLang();navLang()});
 // boot
 try{const q=localStorage.getItem('aw-lang');if(q&&T[q])lang=q}catch(e){}
-$$('.screen').forEach(s=>s.classList.remove('on'));cur='';applyLang();hUp();calc();go(location.hash.slice(1)||'home');
+$$('.screen').forEach(s=>s.classList.remove('on'));cur='';applyLang();navLang();hUp();calc();go(location.hash.slice(1)||'home');
 </script></body></html>
