@@ -43,7 +43,7 @@ h1{font:800 clamp(26px,3.2vw,38px)/1.1 Fraunces,serif;margin:6px 0 8px;backgroun
 .guide ul{margin:6px 0 0;padding-left:18px;color:#d3d8f5;font-size:13.5px}.guide li{margin:5px 0}.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;background:rgba(63,208,201,.18);color:#7FE7E0;margin:2px 4px 2px 0}.tag.g{background:rgba(242,182,60,.2);color:#FFD66B}
 table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.1);text-align:left;vertical-align:top}th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#a9b0dc}
 /* ----- phone ----- */
-.phone-wrap{perspective:1200px;display:flex;justify-content:center;position:sticky;top:78px}
+.phone-wrap{perspective:1200px;display:flex;justify-content:center;position:sticky;top:76px;zoom:var(--fit,1)}
 .phone{position:relative;width:370px;height:760px;border-radius:50px;padding:11px;background:linear-gradient(145deg,#2b2d3a,#0a0b12);box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 2px #3a3c4c,0 0 60px rgba(242,182,60,.18);transition:transform .2s;transform-style:preserve-3d}
 .notch{position:absolute;top:18px;left:50%;transform:translateX(-50%);width:104px;height:26px;border-radius:14px;background:#05060a;z-index:30}
 .glass{position:relative;width:100%;height:100%;border-radius:40px;overflow:hidden;background:linear-gradient(180deg,var(--b2) 0%,var(--b1) 78%);color:var(--ink);isolation:isolate}
@@ -53,8 +53,8 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
 .pl2{width:44px;height:44px;left:-12px;top:300px;background:radial-gradient(circle at 30% 30%,#fff,var(--b2) 80%);opacity:.35;animation-delay:-3s}
 .pl3{width:90px;height:90px;right:-30px;bottom:140px;background:radial-gradient(circle at 30% 30%,var(--ac),transparent 70%);opacity:.3;animation-delay:-6s}
 @keyframes fl{50%{transform:translateY(-18px) translateX(6px)}}
-.status{position:absolute;top:0;left:0;right:0;height:44px;display:flex;justify-content:space-between;align-items:center;padding:6px 26px 0;font-size:12px;font-weight:700;z-index:20}
-.appbar{position:absolute;top:44px;left:0;right:0;height:52px;display:flex;align-items:center;gap:8px;padding:0 16px;z-index:20;background:linear-gradient(180deg,color-mix(in srgb,var(--b2) 80%,transparent),transparent)}
+.status{background:var(--b2);position:absolute;top:0;left:0;right:0;height:44px;display:flex;justify-content:space-between;align-items:center;padding:6px 26px 0;font-size:12px;font-weight:700;z-index:20}
+.appbar{position:absolute;top:44px;left:0;right:0;height:56px;display:flex;align-items:center;gap:8px;padding:0 16px;z-index:20;background:linear-gradient(180deg,var(--b2) 72%,transparent)}.mobonly{display:none!important}
 .appbar b{font:800 17px Fraunces,serif;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chip{font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--cd);border:1px solid color-mix(in srgb,var(--ink) 20%,transparent);color:var(--ink);cursor:pointer}
 .chip.on{background:var(--ac);color:#1b1405;border-color:transparent;box-shadow:0 0 14px color-mix(in srgb,var(--ac) 55%,transparent)}
 .screens{position:absolute;inset:0;z-index:5}
@@ -106,6 +106,15 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:7px 8px;b
 .rip{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:rp .6s ease-out forwards;pointer-events:none}@keyframes rp{to{transform:scale(4);opacity:0}}
 .hint{position:absolute;left:0;right:0;bottom:78px;text-align:center;z-index:24;font-size:10.5px;opacity:.7;pointer-events:none;animation:hn 3s ease-in-out 3 forwards}@keyframes hn{0%,100%{opacity:0}30%,70%{opacity:.8}}
 body.embed header.top,body.embed .left-col,body.embed .guide-col,body.embed .full{display:none}body.embed .wrap{display:block;padding:6px}body.embed .phone-wrap{position:static}body.embed .pagetint{opacity:.35}
+@media(max-width:760px){
+ body{overflow:hidden}header.top,.left-col,.guide-col,.full{display:none}.wrap{display:block;padding:0}
+ .phone-wrap{position:fixed;inset:0;z-index:60;perspective:none;display:block;zoom:1}
+ .phone{width:100vw!important;height:100vh;height:100dvh;border-radius:0;padding:0;background:none;box-shadow:none;transform:none!important}
+ .glass{border-radius:0}.notch,.status{display:none}
+ .appbar{top:0;height:calc(58px + env(safe-area-inset-top));padding-top:env(safe-area-inset-top)}.mobonly{display:inline-block!important}
+ .screen{padding:calc(70px + env(safe-area-inset-top)) 14px calc(96px + env(safe-area-inset-bottom))}
+ .tabbar{left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom))}.fab{bottom:calc(84px + env(safe-area-inset-bottom))}.hint{display:none}
+}
 @media(max-width:1100px){.wrap{grid-template-columns:300px 1fr}.guide-col{grid-column:1/-1}}
 @media(max-width:760px){.wrap{grid-template-columns:1fr}.phone-wrap{position:static;order:-1}.phone{width:min(370px,100%)}.left-col{order:2}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -125,7 +134,7 @@ body.embed header.top,body.embed .left-col,body.embed .guide-col,body.embed .ful
  <section class="phone-wrap"><div class="phone" id="phone"><span class="notch"></span>
   <div class="glass" id="glass"><canvas id="stars"></canvas><i class="planet pl1"></i><i class="planet pl2"></i><i class="planet pl3"></i>
    <div class="status"><span>9:41</span><span>5G ▮▮▮</span></div>
-   <div class="appbar"><b id="title">Home</b><button class="chip" id="langChip">EN</button><button class="chip on" data-go="profile" data-i="login"></button></div>
+   <div class="appbar"><a class="chip mobonly" href="index.html" aria-label="Back">←</a><b id="title">Home</b><button class="chip" id="langChip">EN</button><button class="chip on" data-go="profile" data-i="login"></button></div>
    <div class="screens" id="screens">
 
     <!-- HOME -->
@@ -327,6 +336,7 @@ $('#screens').addEventListener('scroll',e=>{const el=e.target,b=el.querySelector
 (()=>{let sx=null;const gl=$('#glass');gl.addEventListener('pointerdown',e=>{sx=e.target.closest('.snap,input,.tabs,.tabbar,button.tog')?null:e.clientX});gl.addEventListener('pointerup',e=>{if(sx===null)return;const d=e.clientX-sx;sx=null;if(Math.abs(d)>90){const i=order.indexOf(cur);go(order[(i+(d<0?1:-1)+order.length)%order.length])}})})();
 document.addEventListener('pointerdown',e=>{const b=e.target.closest('.cta,.tile,.chip,.card.shine');if(!b)return;const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height)/4,sp=document.createElement('span');sp.className='rip';sp.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(e.clientX-r.left-s/2)+'px;top:'+(e.clientY-r.top-s/2)+'px';if(getComputedStyle(b).position==='static')b.style.position='relative';b.style.overflow='hidden';b.appendChild(sp);setTimeout(()=>sp.remove(),650)});
 addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(h)go(h)});
+function fit(){const h=innerHeight-(document.body.classList.contains('embed')?16:92);document.documentElement.style.setProperty('--fit',Math.min(1,Math.max(.5,h/782)).toFixed(3))}fit();addEventListener('resize',fit);
 // boot
 try{const q=localStorage.getItem('aw-lang');if(q&&T[q])lang=q}catch(e){}
 $$('.screen').forEach(s=>s.classList.remove('on'));cur='';applyLang();hUp();calc();go(location.hash.slice(1)||'home');
