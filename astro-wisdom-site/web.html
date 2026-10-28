@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Astro Wisdom Web App Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+@property --b1{syntax:'<color>';inherits:true;initial-value:#0B1026}
+@property --b2{syntax:'<color>';inherits:true;initial-value:#1c2150}
+@property --ac{syntax:'<color>';inherits:true;initial-value:#F2B63C}
+*{box-sizing:border-box}[hidden]{display:none!important}html{scroll-behavior:smooth}
+body{margin:0;font:15px/1.6 Inter,'Noto Sans Tamil','Noto Sans Devanagari',system-ui,sans-serif;color:#EEF0FF;background:#0B1026;-webkit-font-smoothing:antialiased;--b1:#0B1026;--b2:#1c2150;--ac:#F2B63C;--cd:rgba(20,26,60,.66);transition:--b1 .9s,--b2 .9s,--ac .9s}
+html[lang=ta] body{font-family:'Noto Sans Tamil',Inter,sans-serif}html[lang=hi] body{font-family:'Noto Sans Devanagari',Inter,sans-serif}
+body[data-p=kundli]{--b1:#04161d;--b2:#0b4a4d;--ac:#5CE0D6}body[data-p=horoscope]{--b1:#2a0f26;--b2:#6a2342;--ac:#FFC2A1}body[data-p=matching]{--b1:#2b0a14;--b2:#6b1a28;--ac:#FF9A63}
+body[data-p=panchang]{--b1:#2b1606;--b2:#7a4310;--ac:#FFC857}body[data-p=consult]{--b1:#071033;--b2:#17348a;--ac:#8EC5FF}body[data-p=reports]{--b1:#06201a;--b2:#14563f;--ac:#6BE8B0}body[data-p=learn]{--b1:#0B1026;--b2:#4a3508;--ac:#F2B63C}
+a{color:var(--ac)}
+.pagevid{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-3;transform:scale(1.06);transform-origin:0 0}
+.pagetint{position:fixed;inset:0;z-index:-2;background:radial-gradient(70% 70% at 75% 25%,color-mix(in srgb,var(--b2) 55%,#0B1026),transparent 72%),#0B1026;opacity:.84}
+header.top{position:sticky;top:0;z-index:50;background:rgba(11,16,38,.66);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,214,107,.18)}
+.bar-in{display:flex;align-items:center;gap:12px;height:62px;max-width:1280px;margin:0 auto;padding:0 20px}
+.brand{font:800 17px Fraunces,serif;letter-spacing:.04em;background:linear-gradient(110deg,#E8B86A,#FFF4C9,#E8B86A);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;animation:gs 5s linear infinite}@keyframes gs{to{background-position:-250% 0}}
+nav.links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1}nav.links::-webkit-scrollbar{display:none}nav.links a{color:#a3a9d6;text-decoration:none;font-size:14px;padding:8px 10px;border-radius:8px;white-space:nowrap}nav.links a:hover{color:#EEF0FF;background:rgba(242,182,60,.18)}nav.links a.on{color:#FFD66B;font-weight:700}
+.langs{display:flex;border:1px solid rgba(255,255,255,.2);border-radius:999px;overflow:hidden}.langs button{background:none;border:0;color:#a3a9d6;padding:6px 10px;font:600 12.5px inherit;font-family:inherit;cursor:pointer}.langs button[aria-pressed=true]{background:#F2B63C;color:#1b1405;box-shadow:0 0 18px rgba(242,182,60,.45)}
+.btn{font:600 13px inherit;font-family:inherit;border-radius:999px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#EEF0FF;padding:9px 16px;cursor:pointer;text-decoration:none;display:inline-block;position:relative;overflow:hidden;transition:transform .25s}.btn:hover{transform:translateY(-2px)}
+.btn.pri,.cta{background:linear-gradient(110deg,#E8A317 0%,#FFD66B 40%,#FFF4C9 50%,#FFD66B 60%,#E8A317 100%);background-size:250% 100%;animation:gs 3.6s linear infinite;border-color:transparent;color:#1b1405;font-weight:800;box-shadow:0 8px 24px rgba(242,182,60,.4)}
+.cta{border:0;border-radius:14px;padding:12px 20px;font:800 14px inherit;font-family:inherit;cursor:pointer;position:relative;overflow:hidden}.cta.ghost{background:transparent;color:#EEF0FF;border:1px solid rgba(255,255,255,.3);animation:none;box-shadow:none}
+.sub{max-width:1280px;margin:0 auto;padding:14px 20px 0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}.sub::-webkit-scrollbar{display:none}
+.pill{border:1px solid rgba(255,255,255,.18);background:var(--cd);color:#EEF0FF;border-radius:999px;padding:9px 16px;font:700 13px inherit;font-family:inherit;cursor:pointer;display:flex;gap:8px;align-items:center;white-space:nowrap;transition:all .3s;backdrop-filter:blur(8px)}.pill i{font:normal 16px 'Segoe UI Symbol','Noto Sans Symbols',serif;color:var(--ac)}.pill:hover{transform:translateY(-3px);border-color:var(--ac)}.pill.on{background:var(--ac);color:#1b1405;border-color:transparent;box-shadow:0 0 22px color-mix(in srgb,var(--ac) 55%,transparent)}.pill.on i{color:#1b1405}
+main{max-width:1280px;margin:0 auto;padding:16px 20px 70px}
+.page{display:none}.page.on{display:block;animation:in .7s cubic-bezier(.16,1,.3,1)}@keyframes in{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.hero{position:relative;border-radius:28px;overflow:hidden;min-height:250px;padding:44px 36px;margin-bottom:18px;isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end}
+.hero:before{content:"";position:absolute;inset:-6%;background-size:cover;background-position:center var(--py,50%);animation:kb 22s ease-in-out infinite alternate;z-index:-2}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,8,22,.86),rgba(6,8,22,.25) 70%),linear-gradient(180deg,transparent 40%,rgba(6,8,22,.55));z-index:-1}
+.h1{background-image:url(assets/photos/golden-cosmos.jpg),url(assets/art-wheel.svg)}.h2{background-image:url(assets/photos/planets-nebula.jpg),url(assets/art-cosmos.svg)}.h3{background-image:url(assets/photos/solar-system.jpg),url(assets/art-cosmos.svg)}.h4{background-image:url(assets/photos/nasa-saturn.jpg),url(assets/art-cosmos.svg)}.h5{background-image:url(assets/photos/nasa-nebula.jpg),url(assets/art-cosmos.svg)}.h6{background-image:url(assets/photos/commons-cosmology.jpg),url(assets/art-book.svg)}
+.hero:before{background-image:inherit}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.14) translate(-2%,-1%)}}
+.hero .glint{position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 35%,rgba(255,236,170,.3) 50%,transparent 65%);transform:translateX(-120%);animation:gl 6s ease-in-out infinite}@keyframes gl{55%,100%{transform:translateX(120%)}}
+h1{font:800 clamp(30px,4.4vw,52px)/1.08 Fraunces,serif;margin:0 0 8px;background:linear-gradient(110deg,#fff 0%,#E8B86A 35%,#FFF4C9 50%,#E8B86A 65%,#fff 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gs 6s linear infinite}
+.lead{color:#d3d8f5;max-width:60ch;margin:0 0 14px;font-size:16px}
+.g{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g12{grid-template-columns:1.2fr .8fr}
+.card{background:var(--cd);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:18px 20px;position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s,border-color .35s}
+.card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--ac) 70%,transparent);box-shadow:0 18px 44px color-mix(in srgb,var(--ac) 28%,transparent)}
+.card h3{margin:0 0 8px;font:700 19px Fraunces,serif;color:color-mix(in srgb,var(--ac) 85%,#fff)}.mut{opacity:.75;font-size:13px}
+label{font-size:12px;opacity:.8}.in{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);color:#EEF0FF;border-radius:12px;padding:11px 13px;font:14px inherit;font-family:inherit;margin:3px 0 10px}
+.shine:after{content:"";position:absolute;top:0;left:-70%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:sh 3.8s ease-in-out infinite;pointer-events:none}@keyframes sh{0%,55%{left:-70%}100%{left:140%}}
+.bar{height:9px;border-radius:5px;background:rgba(255,255,255,.14);overflow:hidden;margin:4px 0 10px}.bar i{display:block;height:100%;width:0;border-radius:5px;background:linear-gradient(90deg,var(--ac),#FFF4C9);transition:width 1.4s cubic-bezier(.16,1,.3,1)}.go .bar i{width:var(--w)}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.tile{border:1px solid rgba(255,255,255,.14);background:var(--cd);color:#EEF0FF;border-radius:18px;padding:16px 8px;text-align:center;font:700 13px inherit;font-family:inherit;cursor:pointer;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}.tile i{display:block;font:normal 28px 'Segoe UI Symbol','Noto Sans Symbols',serif;color:var(--ac);margin-bottom:4px}.tile:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 16px 34px color-mix(in srgb,var(--ac) 35%,transparent)}
+.signs{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.sg{border:1px solid rgba(255,255,255,.14);background:var(--cd);border-radius:18px;padding:14px 6px;text-align:center;cursor:pointer;transition:all .3s;color:#EEF0FF;font-family:inherit}.sg i{display:block;font:normal 30px 'Segoe UI Symbol','Noto Sans Symbols',serif;color:var(--ac)}.sg b{display:block;font-size:14px}.sg small{opacity:.7;font-size:11.5px}.sg:hover,.sg.sel{transform:translateY(-5px);border-color:var(--ac);box-shadow:0 0 24px color-mix(in srgb,var(--ac) 45%,transparent)}
+.row{display:flex;gap:10px;align-items:center}.w{flex-wrap:wrap}.tag{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--ac) 22%,transparent);color:color-mix(in srgb,var(--ac) 85%,#fff)}
+.chip{font-size:12.5px;font-weight:700;padding:7px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:transparent;color:#EEF0FF;cursor:pointer;font-family:inherit;transition:all .25s}.chip.on{background:var(--ac);color:#1b1405;border-color:transparent;box-shadow:0 0 16px color-mix(in srgb,var(--ac) 50%,transparent)}
+.marq{overflow:hidden;white-space:nowrap;margin-bottom:16px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}.marq div{display:inline-block;animation:mq 26s linear infinite}.marq span{display:inline-block;margin:0 6px;font-size:13px;font-weight:700;padding:6px 14px;border-radius:999px;background:var(--cd);border:1px solid rgba(255,255,255,.16)}@keyframes mq{to{transform:translateX(-50%)}}
+table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:9px 8px;border-bottom:1px solid rgba(255,255,255,.12);text-align:left}th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;opacity:.7}
+.gauge{width:230px;height:130px;margin:0 auto;position:relative}.gauge svg{width:100%;height:100%}.gauge .num{position:absolute;left:0;right:0;bottom:-2px;text-align:center;font:800 38px Fraunces,serif}
+.tl{position:relative;height:42px;border-radius:12px;background:rgba(255,255,255,.1);overflow:hidden;margin:8px 0}.tl i{position:absolute;top:0;bottom:0;border-radius:8px}.now{position:absolute;top:-2px;bottom:-2px;width:3px;background:#fff;box-shadow:0 0 12px #fff;animation:nw 9s ease-in-out infinite alternate}@keyframes nw{from{left:5%}to{left:93%}}
+.blocks{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}.blk{border-radius:12px;padding:12px 2px;text-align:center;font-size:12px;font-weight:700;opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s}.go .blk{opacity:1;transform:none}
+.bub{max-width:80%;padding:10px 14px;border-radius:18px;margin:8px 0;font-size:14px}.bub.u{margin-left:auto;background:var(--ac);color:#1b1405;border-bottom-right-radius:4px}.bub.a{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-bottom-left-radius:4px}
+.dots span{display:inline-block;width:7px;height:7px;border-radius:50%;background:#fff;margin:0 2px;animation:dt 1s infinite}.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}@keyframes dt{50%{transform:translateY(-5px);opacity:.4}}
+.vid{position:relative;border-radius:18px;overflow:hidden}.vid video{width:100%;display:block;aspect-ratio:16/9;object-fit:cover}.vid button{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;padding:0;font-size:22px}
+.rip{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:rp .6s ease-out forwards;pointer-events:none}@keyframes rp{to{transform:scale(4);opacity:0}}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#F2B63C;color:#241a05;padding:10px 18px;border-radius:999px;font-weight:700;z-index:90;display:none}
+footer{max-width:1280px;margin:0 auto;padding:10px 20px 40px;color:#a3a9d6;font-size:12.5px}
+@media(max-width:1000px){.g2,.g3,.g12{grid-template-columns:1fr}.g4,.tiles{grid-template-columns:1fr 1fr}.signs{grid-template-columns:repeat(3,1fr)}.blocks{grid-template-columns:repeat(4,1fr)}.hero{padding:30px 20px}}
+@media(max-width:640px){nav.links{display:none}.bar-in{gap:8px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head>
+<body data-p="home">
+<video class="pagevid" id="bgvid" autoplay muted loop playsinline preload="metadata" poster="assets/hero-bg-poster.jpg" aria-hidden="true"><source src="assets/hero-bg.mp4" type="video/mp4"></video><div class="pagetint"></div>
+<header class="top"><div class="bar-in"><a class="brand" href="index.html">ASTRO WISDOM™</a>
+<nav class="links"><a href="index.html">Blueprint</a><a href="web.html" class="on">Web app</a><a href="app.html">Mobile app</a></nav>
+<div class="langs"><button data-lang="en" aria-pressed="true">EN</button><button data-lang="ta" aria-pressed="false">தமிழ்</button><button data-lang="hi" aria-pressed="false">हिन्दी</button></div>
+<button class="btn" data-go="home" data-t="login">Log in</button><button class="btn pri" data-go="home" data-t="register">Register</button></div></header>
+<div class="sub" id="sub"></div>
+<main>
+
+<section class="page" data-pg="home">
+ <div class="marq"><div id="marq"></div></div>
+ <div class="hero h1"><span class="glint"></span><div class="tag" style="align-self:flex-start;margin-bottom:10px">Free · 60 seconds · method named</div><h1>Look to the sky.<br>Understand the pattern.</h1><p class="lead">Kundli, matching, horoscopes, Panchang, consultation and learning, in your language.</p><div class="row"><button class="cta" data-go="kundli">Create my Kundli</button><button class="cta ghost" data-go="matching">Match two charts</button></div></div>
+ <div class="g g2">
+  <div class="card shine"><h3 data-t="free_kundli">Free Kundli</h3><div class="g g2" style="gap:0 14px"><div><label>Name</label><input class="in" value="Priya"></div><div><label>Date of birth</label><input class="in" type="date" value="1994-03-14"></div><div><label>Time</label><input class="in" type="time" value="06:45"></div><div><label>Place</label><input class="in" value="Chennai, IN"></div></div><div class="row w" style="margin-bottom:12px"><span class="chip on">Lahiri</span><span class="chip on">North Indian</span><span class="chip">Parashari</span></div><button class="cta" data-go="kundli">Create my sky</button></div>
+  <div class="card shine"><h3 data-t="matching">Horoscope Matching</h3><div class="g g2" style="gap:0 14px"><div><label>Partner A</label><input class="in" value="Arun"><input class="in" type="date" value="1992-08-02"></div><div><label>Partner B</label><input class="in" value="Priya"><input class="in" type="date" value="1994-03-14"></div></div><button class="cta" data-go="matching">Match (Ashtakoot · 36)</button></div>
+ </div>
+ <h2 style="font:800 26px Fraunces,serif;margin:26px 0 12px">Free tools</h2><div class="tiles" id="tiles"></div>
+ <div class="g g12" style="margin-top:18px"><div class="card"><h3 data-t="panchang">Today's Panchang</h3><div class="mut" style="margin-bottom:10px">New Delhi · Tue 28 Oct (sample)</div><div class="g g3" style="gap:14px"><div><div class="mut">Tithi</div><div class="bar"><i style="--w:72%"></i></div></div><div><div class="mut">Nakshatra</div><div class="bar"><i style="--w:48%"></i></div></div><div><div class="mut">Rahu Kaal</div><div class="bar"><i style="--w:26%"></i></div></div></div><button class="cta ghost" data-go="panchang">Open Panchang</button></div><div class="card"><h3>Talk to an astrologer</h3><div class="mut" style="margin-bottom:10px">AI Guide is free for your first question. Human sessions have fixed prices.</div><button class="cta" data-go="consult">Ask now</button></div></div>
+</section>
+
+<section class="page" data-pg="kundli">
+ <div class="hero h2"><span class="glint"></span><h1>Free Kundli</h1><p class="lead">Birth chart with the tradition, method and version named on every result.</p></div>
+ <div class="g g12">
+  <div class="card"><h3>Birth details</h3><div class="g g2" style="gap:0 14px"><div><label>Name</label><input class="in" value="Priya"></div><div><label>Date of birth</label><input class="in" type="date" value="1994-03-14"></div><div><label>Time</label><input class="in" type="time" value="06:45"></div><div><label>Place</label><input class="in" value="Chennai, Tamil Nadu, IN"></div></div>
+   <div class="row w" style="margin:4px 0 12px"><span class="chip on">Lahiri</span><span class="chip">KP</span><span class="chip on">North Indian</span><span class="chip">South</span><span class="chip">Western</span><span class="chip on">Whole sign</span></div><button class="cta" id="kGo">Generate Kundli</button></div>
+  <div class="card" id="kRes"><h3>Chart</h3><svg viewBox="0 0 220 220" width="100%" style="max-height:300px"><g id="kchart" fill="none" stroke="var(--ac)" stroke-width="1.6"><rect x="10" y="10" width="200" height="200"/><path d="M10 10L210 210M210 10L10 210M110 10L210 110L110 210L10 110Z"/></g><g id="kplan" fill="#fff" font-size="11" text-anchor="middle"><text x="110" y="62">Su Me</text><text x="62" y="40">Ve</text><text x="34" y="64">Ma</text><text x="62" y="112">Ju</text><text x="36" y="160">Ra</text><text x="62" y="186">Sa</text><text x="110" y="168">Mo</text><text x="162" y="190">Ke</text></g></svg><div class="mut" style="text-align:center">D1 Rāśi · Lahiri · Whole-sign · Parashari v2.3 (sample)</div></div>
+ </div>
+ <div class="g g2" style="margin-top:16px"><div class="card"><h3>Planets</h3><table><tr><th>Planet</th><th>Sign</th><th>Nakshatra</th></tr><tr><td>Sun</td><td>Pisces</td><td>…</td></tr><tr><td>Moon</td><td>Taurus</td><td>…</td></tr><tr><td>Mars</td><td>Capricorn</td><td>…</td></tr><tr><td>Saturn</td><td>Aquarius</td><td>…</td></tr></table></div>
+ <div class="card"><h3>Vimshottari Dasha</h3><div class="mut">Moon → Mars → <b>Rahu</b> → Jupiter</div><div class="bar" style="margin-top:12px"><i style="--w:88%"></i></div><div class="bar"><i style="--w:55%"></i></div><div class="mut">Tap a period for a plain-language meaning.</div></div></div>
+</section>
+
+<section class="page" data-pg="matching">
+ <div class="hero h3"><span class="glint"></span><h1>Horoscope Matching</h1><p class="lead">Ashtakoot score out of 36, a dosha pattern check and a second-lens comparison.</p></div>
+ <div class="g g12"><div class="card"><h3>Two profiles</h3><div class="g g2" style="gap:0 14px"><div><label>Partner A</label><input class="in" value="Arun"><input class="in" type="date" value="1992-08-02"></div><div><label>Partner B</label><input class="in" value="Priya"><input class="in" type="date" value="1994-03-14"></div></div><button class="cta" id="mGo">Match (Ashtakoot · 36)</button>
+  <div style="margin-top:16px"><div class="gauge"><svg viewBox="0 0 230 130"><path d="M16 120A99 99 0 0 1 214 120" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="14" stroke-linecap="round"/><path id="gArc" d="M16 120A99 99 0 0 1 214 120" fill="none" stroke="var(--ac)" stroke-width="14" stroke-linecap="round" stroke-dasharray="312" stroke-dashoffset="312" style="transition:stroke-dashoffset 1.8s cubic-bezier(.16,1,.3,1)"/></svg><div class="num"><span id="gNum">0</span> / 36</div></div><div class="mut" style="text-align:center;margin-top:6px">Traditional compatibility score (sample) · not a verdict</div><div class="row w" style="justify-content:center;margin-top:10px"><span class="chip on">Mangal dosha: none</span><span class="chip">Compare Western lens ⇄</span></div></div></div>
+  <div class="card"><h3>Ashtakoot breakdown</h3><div id="koota"></div></div></div>
+</section>
+
+<section class="page" data-pg="horoscope">
+ <div class="hero h3"><span class="glint"></span><h1>Horoscope by sign</h1><p class="lead">Daily, weekly, monthly and yearly. Vedic Moon sign or Western Sun sign.</p></div>
+ <div class="row w" style="margin-bottom:14px" id="hper"><button class="chip on" data-p="Daily">Daily</button><button class="chip" data-p="Weekly">Weekly</button><button class="chip" data-p="Monthly">Monthly</button><button class="chip" data-p="Yearly 2027">Yearly 2027</button><span style="flex:1"></span><button class="chip on" data-lens>Vedic · Moon sign</button><button class="chip" data-lens>Western · Sun sign</button></div>
+ <div class="signs" id="hsigns"></div>
+ <div class="g g12" style="margin-top:16px"><div class="card"><h3 id="hTitle">Scorpio · Daily</h3><p id="hText" style="opacity:.9">Energy turns toward long-term work. Notice where effort feels chosen and where it feels automatic.</p><div class="g g2" style="gap:0 24px"><div><div class="mut">Love</div><div class="bar"><i style="--w:70%"></i></div><div class="mut">Work</div><div class="bar"><i style="--w:86%"></i></div></div><div><div class="mut">Money</div><div class="bar"><i style="--w:52%"></i></div><div class="mut">Mind</div><div class="bar"><i style="--w:64%"></i></div></div></div></div>
+ <div class="card shine"><h3>Reflect</h3><p style="opacity:.9">Where did I put my energy this week, and was it chosen?</p><button class="cta" data-toast="Saved to your Sky Journal (demo)">Journal it</button></div></div>
+</section>
+
+<section class="page" data-pg="panchang">
+ <div class="hero h2"><span class="glint"></span><h1>Today's Panchang</h1><p class="lead">Computed for your city from the same ephemeris. Traditional timing, not advice.</p><div class="row w"><span class="chip on">New Delhi ▾</span><span class="chip">Tue 28 Oct ▾</span></div></div>
+ <div class="g g2"><div class="card"><h3>Five limbs</h3><table><tr><td>Tithi</td><td class="mut">from ephemeris</td></tr><tr><td>Nakshatra</td><td class="mut">from ephemeris</td></tr><tr><td>Yoga · Karana</td><td class="mut">from ephemeris</td></tr><tr><td>Sunrise · Sunset</td><td class="mut">06:30 · 17:45</td></tr></table></div>
+ <div class="card"><h3>Day timeline (sample)</h3><div class="tl"><i style="left:58%;width:14%;background:#D64545"></i><i style="left:14%;width:10%;background:#2EAD7B"></i><i style="left:38%;width:6%;background:#FFC857"></i><span class="now"></span></div><div class="row w"><span class="tag" style="background:#D6454533;color:#ff9a9a">Rahu Kaal</span><span class="tag">Abhijit</span><span class="tag">Now</span></div></div></div>
+ <div class="card" style="margin-top:16px"><h3>Choghadiya · day</h3><div class="blocks" id="chog"></div></div>
+</section>
+
+<section class="page" data-pg="consult">
+ <div class="hero h1"><span class="glint"></span><h1>Ask with a method</h1><p class="lead">AI Guide that cites its rule, or a verified practitioner at a fixed price. No per-minute billing.</p></div>
+ <div class="g g12"><div class="card"><h3>AI Guide</h3><div class="bub u">Why is Saturn in my 7th house a big deal?</div><div id="chat"></div><div class="mut" style="margin-top:8px">Using: Vedic · Parashari v2.3. The answer cites its rule.</div><button class="cta ghost" id="replay" style="margin-top:10px">Replay answer</button></div>
+  <div><div class="card shine" style="margin-bottom:16px"><h3>Dr. A. Raman · Parashari ✓</h3><div class="mut">★ 4.8 · Tamil · English</div><div class="row w" style="margin:10px 0"><span class="tag">20 min ₹899</span><span class="tag">40 min ₹1,599</span></div><button class="cta" data-toast="Booking is a demo">Book video</button></div><div class="card shine"><h3>R. Meenakshi · Hellenistic</h3><div class="mut">★ 4.8 · Tamil</div><div class="row w" style="margin:10px 0"><span class="tag">20 min ₹899</span></div><button class="cta ghost" data-toast="Booking is a demo">Chat</button></div></div></div>
+</section>
+
+<section class="page" data-pg="reports">
+ <div class="hero h4"><span class="glint"></span><h1>Free reports</h1><p class="lead">Each one is a labelled calculation. Doshas are patterns to understand, not curses.</p></div>
+ <div class="tiles" id="rep"></div>
+ <div class="card" style="margin-top:16px"><h3>Gemstones</h3><div class="mut">Shown as cultural practice, never as a cure. No selling on these pages.</div></div>
+</section>
+
+<section class="page" data-pg="learn">
+ <div class="hero h6"><span class="glint"></span><h1>Sky School</h1><p class="lead">Video lessons, PDF guides and live classes with an astrologer.</p><div class="row w" id="lt"><button class="chip on" data-lt="all">All</button><button class="chip" data-lt="video">Video lessons</button><button class="chip" data-lt="pdf">PDF guides</button><button class="chip" data-lt="live">Live classes</button></div></div>
+ <div class="g g3" id="lcards">
+  <div class="card" data-k="video"><h3>Video lessons</h3><div class="vid"><video id="lessonVid" src="assets/hero-bg.mp4" poster="assets/hero-bg-poster.jpg" muted loop playsinline></video><button class="cta" id="lessonPlay" aria-label="Play">▶</button></div><div class="mut" style="margin-top:8px">5–10 min · subtitles EN / தமிழ் / हिन्दी · sample clip</div></div>
+  <div class="card" data-k="pdf"><h3>PDF guides</h3><div class="mut" style="margin-bottom:10px">Printable cheat-sheets, free. 12 guides planned.</div><a class="cta" style="display:block;text-align:center;text-decoration:none" href="assets/guide-sky-basics.pdf" download>Download sample PDF ↓</a><button class="cta ghost" style="width:100%;margin-top:10px" data-toast="More guides coming (demo)">Houses cheat-sheet</button></div>
+  <div class="card shine" data-k="live"><h3>Live class</h3><div class="row w" style="margin-bottom:8px"><span class="tag">Sat · 7:00 PM IST</span><span class="tag">8 seats left</span></div><b>Reading your chart: a live walkthrough</b><div class="mut" style="margin:6px 0 12px">Small group with an astrologer. Q&amp;A. Replay included. Sample schedule.</div><button class="cta" data-seat>Reserve seat</button></div>
+ </div>
+ <h2 style="font:800 24px Fraunces,serif;margin:24px 0 10px" id="zh">The twelve signs</h2><div class="row w" style="margin-bottom:12px"><button class="chip on" data-zs="t">Tropical (Western)</button><button class="chip" data-zs="s">Sidereal (Vedic)</button></div><div class="signs" id="zgrid"></div><div class="mut" id="znote" style="margin-top:10px">Dates shown are Western (tropical). A Vedic (sidereal) sign depends on the full birth calculation and often differs.</div>
+</section>
+</main>
+<footer>Symbolic and traditional guidance, not scientific prediction or advice. Prototype: nothing is stored or sent. Images: NASA/JPL (Cassini; WISE), Wikimedia Commons (public domain) and project-owner images.</footer>
+<div class="toast" id="toast"></div>
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const PAGES=[['home','⌂','Home'],['kundli','☉','Kundli'],['matching','⚭','Matching'],['horoscope','♌','Horoscope'],['panchang','☾','Panchang'],['consult','☎','Consult'],['reports','✦','Reports'],['learn','✎','Learn']];
+const TT={en:{login:'Log in',register:'Register',free_kundli:'Free Kundli',matching:'Horoscope Matching',panchang:"Today's Panchang",Home:'Home',Kundli:'Kundli',Matching:'Matching',Horoscope:'Horoscope',Panchang:'Panchang',Consult:'Consult',Reports:'Reports',Learn:'Learn'},
+ ta:{login:'உள்நுழை',register:'பதிவு செய்',free_kundli:'இலவச குண்டலி',matching:'ஜாதகப் பொருத்தம்',panchang:'இன்றைய பஞ்சாங்கம்',Home:'முகப்பு',Kundli:'குண்டலி',Matching:'பொருத்தம்',Horoscope:'ராசிபலன்',Panchang:'பஞ்சாங்கம்',Consult:'ஆலோசனை',Reports:'அறிக்கைகள்',Learn:'கற்க'},
+ hi:{login:'लॉग इन',register:'रजिस्टर',free_kundli:'मुफ़्त कुंडली',matching:'कुंडली मिलान',panchang:'आज का पंचांग',Home:'होम',Kundli:'कुंडली',Matching:'मिलान',Horoscope:'राशिफल',Panchang:'पंचांग',Consult:'परामर्श',Reports:'रिपोर्ट',Learn:'सीखें'}};
+let lang='en',cur='';const t=k=>(TT[lang][k]??TT.en[k]??k);
+const SIGNS=[['Aries','♈','Mar 21 – Apr 19'],['Taurus','♉','Apr 20 – May 20'],['Gemini','♊','May 21 – Jun 20'],['Cancer','♋','Jun 21 – Jul 22'],['Leo','♌','Jul 23 – Aug 22'],['Virgo','♍','Aug 23 – Sep 22'],['Libra','♎','Sep 23 – Oct 22'],['Scorpio','♏','Oct 23 – Nov 21'],['Sagittarius','♐','Nov 22 – Dec 21'],['Capricorn','♑','Dec 22 – Jan 19'],['Aquarius','♒','Jan 20 – Feb 18'],['Pisces','♓','Feb 19 – Mar 20']].map(s=>[s[0],s[1]+'︎',s[2]]);
+function toast(m){const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',2200)}
+function buildSub(){$('#sub').innerHTML=PAGES.map(p=>'<button class="pill'+(p[0]===cur?' on':'')+'" data-go="'+p[0]+'"><i>'+p[1]+'</i>'+t(p[2])+'</button>').join('')}
+function applyLang(){document.documentElement.lang=lang;$$('[data-t]').forEach(e=>e.textContent=t(e.dataset.t));$$('.langs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));buildSub();try{localStorage.setItem('aw-lang',lang)}catch(e){}}
+$$('.langs button').forEach(b=>b.onclick=()=>{lang=b.dataset.lang;applyLang()});
+$('#marq').innerHTML=(()=>{const L=['English','தமிழ்','हिन्दी','తెలుగు','ಕನ್ನಡ','മലയാളം','मराठी','বাংলা','ગુજરાતી','ਪੰਜਾਬੀ','ଓଡ଼ିଆ','اردو'];return [...L,...L].map(x=>'<span>'+x+'</span>').join('')})();
+$('#tiles').innerHTML=[['kundli','☉','Kundli'],['matching','⚭','Matching'],['horoscope','♌','Rashifal'],['panchang','☾','Panchang'],['reports','✦','Reports'],['learn','✎','Learn'],['consult','☎','Consult'],['kundli','∑','Calculators']].map(x=>'<button class="tile shine" data-go="'+x[0]+'"><i>'+x[1]+'</i>'+x[2]+'</button>').join('');
+$('#rep').innerHTML=['Sade Sati','Mangal Dosha','Kaalsarp','Vimshottari','Varshphal','Transit','Gemstones','Baby Names'].map(x=>'<button class="tile shine" data-toast="Opens the '+x+' report (demo)"><i>✦</i>'+x+'</button>').join('');
+$('#koota').innerHTML=[['Varna',1,'1 / 1'],['Vashya',1,'2 / 2'],['Tara',1,'3 / 3'],['Yoni',.75,'3 / 4'],['Graha Maitri',.8,'4 / 5'],['Gana',.83,'5 / 6'],['Bhakoot',0,'0 / 7'],['Nadi',1,'8 / 8']].map(([a,v,s])=>'<div class="row" style="justify-content:space-between"><span>'+a+'</span><b>'+s+'</b></div><div class="bar"><i style="--w:'+v*100+'%"></i></div>').join('');
+$('#chog').innerHTML=[['Udveg','#FF8A8A'],['Char','#8EC5FF'],['Labh','#6BE8B0'],['Amrit','#6BE8B0'],['Kaal','#FF8A8A'],['Shubh','#6BE8B0'],['Rog','#FF8A8A'],['Udveg','#FF8A8A']].map(([a,c],i)=>'<div class="blk" style="background:'+c+'33;color:'+c+';transition-delay:'+i*90+'ms">'+a+'</div>').join('');
+$('#hsigns').innerHTML=SIGNS.map((s,i)=>'<button class="sg'+(i===7?' sel':'')+'" data-s="'+i+'"><i>'+s[1]+'</i><b>'+s[0]+'</b><small>'+s[2]+'</small></button>').join('');
+$('#zgrid').innerHTML=SIGNS.map(s=>'<div class="sg"><i>'+s[1]+'</i><b>'+s[0]+'</b><small>'+s[2]+'</small></div>').join('');
+// routing + themes
+function go(id){if(!PAGES.find(p=>p[0]===id))id='home';if(id===cur)return;cur=id;document.body.dataset.p=id;$$('.page').forEach(p=>{const on=p.dataset.pg===id;p.classList.toggle('on',on);p.classList.remove('go');if(on)requestAnimationFrame(()=>requestAnimationFrame(()=>{p.classList.add('go');enter(id)}))});window.scrollTo({top:0,behavior:'smooth'});buildSub();history.replaceState(null,'','#'+id)}
+function enter(id){if(id==='kundli')drawChart();if(id==='consult')chat();if(id==='matching')runMatch()}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){e.preventDefault();go(g.dataset.go)}const tt=e.target.closest('[data-toast]');if(tt)toast(tt.dataset.toast);const b=e.target.closest('.cta,.tile,.chip,.pill,.btn');if(b){const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height)/4,sp=document.createElement('span');sp.className='rip';sp.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(e.clientX-r.left-s/2)+'px;top:'+(e.clientY-r.top-s/2)+'px';if(getComputedStyle(b).position==='static')b.style.position='relative';b.style.overflow='hidden';b.appendChild(sp);setTimeout(()=>sp.remove(),650)}});
+addEventListener('hashchange',()=>go(location.hash.slice(1)));
+// kundli chart draw
+function drawChart(){$$('#kchart rect,#kchart path').forEach((e,i)=>{const L=e.getTotalLength();e.style.strokeDasharray=L;e.style.strokeDashoffset=L;e.getBoundingClientRect();e.style.transition='stroke-dashoffset 1.8s cubic-bezier(.16,1,.3,1) '+i*.2+'s';e.style.strokeDashoffset=0});$$('#kplan text').forEach((e,i)=>{e.style.opacity=0;e.style.transition='opacity .5s '+(1+i*.12)+'s';requestAnimationFrame(()=>e.style.opacity=1)})}
+$('#kGo').onclick=drawChart;
+// matching gauge
+let gt;function runMatch(){const a=$('#gArc');a.style.strokeDashoffset=312;a.getBoundingClientRect();a.style.strokeDashoffset=312*(1-26/36);clearInterval(gt);let n=0;gt=setInterval(()=>{n++;$('#gNum').textContent=n;if(n>=26)clearInterval(gt)},60)}
+$('#mGo').onclick=runMatch;
+// horoscope
+const TXT={Daily:'Energy turns toward long-term work. Notice where effort feels chosen and where it feels automatic.',Weekly:'A steady week for planning. Small, reversible experiments beat big declarations.',Monthly:'Themes of home and work meet. Name one commitment to keep and one to release.','Yearly 2027':'A year to review direction. Revisit your answers each quarter and compare plans with what happened.'};
+let hs=7,hp='Daily';function hUp(){$('#hTitle').textContent=SIGNS[hs][0]+' · '+hp;$('#hText').textContent=TXT[hp]}
+$('#hsigns').onclick=e=>{const c=e.target.closest('[data-s]');if(!c)return;hs=+c.dataset.s;$$('#hsigns .sg').forEach(x=>x.classList.toggle('sel',x===c));hUp()};
+$$('#hper [data-p]').forEach(b=>b.onclick=()=>{$$('#hper [data-p]').forEach(x=>x.classList.toggle('on',x===b));hp=b.dataset.p;hUp()});
+$$('[data-lens]').forEach(b=>b.onclick=()=>$$('[data-lens]').forEach(x=>x.classList.toggle('on',x===b)));
+// consult chat
+let ch;function chat(){clearInterval(ch);const el=$('#chat'),ans='Saturn in the 7th house in a Parashari reading points to relationships that grow through patience. So what? Commitments may feel weighty. Now what? Name one pattern you want to explore.';el.innerHTML='<div class="bub a"><span class="dots"><span></span><span></span><span></span></span></div>';setTimeout(()=>{let i=0;ch=setInterval(()=>{el.innerHTML='<div class="bub a">'+ans.slice(0,++i)+'</div>';if(i>=ans.length)clearInterval(ch)},22)},800)}
+$('#replay').onclick=chat;
+// learn
+$$('[data-lt]').forEach(b=>b.onclick=()=>{$$('[data-lt]').forEach(x=>x.classList.toggle('on',x===b));const k=b.dataset.lt;$$('#lcards [data-k]').forEach(c=>c.hidden=!(k==='all'||c.dataset.k===k));if(k!=='all'&&k!=='video')$('#lessonVid').pause()});
+$('#lessonPlay').onclick=()=>{const v=$('#lessonVid');if(v.paused){v.play();$('#lessonPlay').textContent='❚❚'}else{v.pause();$('#lessonPlay').textContent='▶'}};
+$$('[data-seat]').forEach(b=>b.onclick=()=>{b.textContent='Seat reserved ✓ (demo)';toast('Seat reserved (demo only, nothing is sent)')});
+$$('[data-zs]').forEach(b=>b.onclick=()=>{$$('[data-zs]').forEach(x=>x.classList.toggle('on',x===b));$('#znote').textContent=b.dataset.zs==='s'?'Sidereal (Vedic) signs depend on the ayanamsa and the full birth calculation. Open Kundli to see yours.':'Dates shown are Western (tropical). A Vedic (sidereal) sign depends on the full birth calculation and often differs.'});
+// parallax hero + card tilt
+addEventListener('scroll',()=>{const h=$('.page.on .hero');if(h)h.style.setProperty('--py',(50+Math.min(30,scrollY/10))+'%')},{passive:true});
+document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.card');if(!c||innerWidth<1000)return;const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform='perspective(900px) rotateY('+(x*4).toFixed(2)+'deg) rotateX('+(-y*4).toFixed(2)+'deg) translateY(-3px)'},{passive:true});
+document.addEventListener('pointerout',e=>{const c=e.target.closest&&e.target.closest('.card');if(c)c.style.transform=''});
+if(matchMedia('(prefers-reduced-motion: reduce)').matches||(navigator.connection&&navigator.connection.saveData))$('#bgvid').pause();
+try{const q=localStorage.getItem('aw-lang');if(q&&TT[q])lang=q}catch(e){}
+applyLang();hUp();go(location.hash.slice(1)||'home');
+</script></body></html>
