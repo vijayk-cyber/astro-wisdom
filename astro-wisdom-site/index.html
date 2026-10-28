@@ -20,7 +20,7 @@ nav.links a{color:var(--mut);text-decoration:none;font-size:14px;padding:8px 10p
 .btn{font:600 14px inherit;font-family:inherit;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);padding:9px 16px;cursor:pointer;text-decoration:none;display:inline-block}
 .btn.pri{background:linear-gradient(110deg,#E8A317 0%,#FFD66B 40%,#FFF4C9 50%,#FFD66B 60%,#E8A317 100%);background-size:250% 100%;animation:goldshine 3.6s linear infinite;border-color:transparent;color:#1b1405}.btn:hover{filter:brightness(1.12)}.btn.gold{background:var(--gold);color:#241a05;border-color:transparent}
 .hero{position:relative;overflow:hidden;padding:72px 0 56px}.hero canvas{position:absolute;inset:0;width:100%;height:100%}
-.hero .g{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.bgvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}.scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(8,11,30,.88) 0%,rgba(8,11,30,.62) 45%,rgba(8,11,30,.28) 100%),linear-gradient(180deg,rgba(11,16,38,.35) 0%,rgba(11,16,38,0) 40%,var(--bg) 100%)}.hero canvas{z-index:2}.hero .g{z-index:3}.hero .g{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
 .kick{color:var(--aur);font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
 h1{font:800 clamp(38px,6vw,68px)/1.05 Fraunces,serif;margin:10px 0 8px;background:linear-gradient(110deg,#fff 0%,#E8B86A 30%,#FFF4C9 50%,#E8B86A 70%,#fff 100%);background-size:250% 100%;animation:goldshine 6s linear infinite;-webkit-background-clip:text;background-clip:text;color:transparent}
 .sub{font:italic 600 22px Fraunces,serif;color:var(--gold);margin:0 0 16px}.lead{color:var(--mut);max-width:56ch;font-size:17px}
@@ -88,7 +88,7 @@ h2:after{background:linear-gradient(90deg,var(--gold),#FFF4C9,var(--gold))!impor
 </div></header>
 
 <main>
-<section id="overview" class="hero" style="border-top:0;padding-top:64px"><canvas id="stars"></canvas><div class="wrap g">
+<section id="overview" class="hero" style="border-top:0;padding-top:64px"><video class="bgvid" id="bgvid" autoplay muted loop playsinline preload="metadata" poster="assets/hero-bg-poster.jpg" aria-hidden="true"><source src="assets/hero-bg.mp4" type="video/mp4"></video><div class="scrim"></div><canvas id="stars"></canvas><div class="wrap g">
 <div><div class="kick" data-i="h_kicker"></div><h1 data-i="h_title"></h1><p class="sub" data-i="h_sub"></p><p class="lead" data-i="h_lead"></p>
 <div class="cta"><a class="btn pri" href="#wireframes" data-i="h_cta1"></a><a class="btn gold" href="#costs" data-i="h_cta2"></a><button class="btn hide-s" data-auth="register" data-i="register"></button></div>
 <div class="stats"><div class="stat"><b>21</b><span data-i="s_apis"></span></div><div class="stat"><b>39</b><span data-i="s_pages"></span></div><div class="stat"><b>15</b><span data-i="s_anim"></span></div><div class="stat"><b>36</b><span data-i="s_wire"></span></div></div>
@@ -212,7 +212,7 @@ const secs=$$('main section');const io=new IntersectionObserver(es=>es.forEach(e
 // motion
 let still=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function setStill(v){still=v;document.body.dataset.still=v?'1':'0';$('#still').textContent=v?'▶ ':'';$('#still').dataset.i=v?'d_replay':'d_stop';$('#still').textContent=t(v?'d_replay':'d_stop')}
-$('#still').onclick=()=>{setStill(!still);if(!still)replayAll()};setStill(still);
+$('#still').onclick=()=>{setStill(!still);if(!still)replayAll();syncVideo()};setStill(still);
 const NS='http://www.w3.org/2000/svg';const el=(n,a={},p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
 const anim=(e,kf,o)=>still?null:e.animate(kf,{fill:'both',easing:'cubic-bezier(.16,1,.3,1)',...o});
 function wheel(){const s=$('#dWheel');s.innerHTML='';const g=[[110,2.5],[88,1.5],[56,1.5]];
@@ -239,6 +239,10 @@ $('#rWheel').onclick=wheel;$('#rRadar').onclick=radar;$('#rClock').onclick=clock
 function replayAll(){wheel();radar();clock();morph()}
 // lazy-start demos when visible
 new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){replayAll();runStream();o.disconnect()}},{threshold:.15}).observe($('#motion .lab'));
+// background video
+const bv=$('#bgvid');
+function syncVideo(){if(!bv)return;const sv=navigator.connection&&navigator.connection.saveData;if(still||sv){bv.pause()}else{const p=bv.play();p&&p.catch(()=>{})}}
+if(bv){new IntersectionObserver(es=>{if(!es[0].isIntersecting)bv.pause();else syncVideo()},{threshold:.05}).observe(bv)}
 // stars
 const cv=$('#stars'),cx=cv.getContext('2d');let S=[],mx=0,my=0;
 function sz(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;S=Array.from({length:130},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,z:Math.random()*.9+.1}))}
@@ -249,6 +253,6 @@ $$('.card,.stat,figure.wf,figure.slot,.sw,.demo,.tw,section h2,section h3,.signs
 const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target)}}),{threshold:.08});$$('.rv').forEach(e=>rio.observe(e));
 // boot
 try{const q=new URLSearchParams(location.search).get('lang')||localStorage.getItem('aw-lang');if(q&&D.I18N[q])lang=q}catch(e){}
-apply();sparkles();
+apply();sparkles();syncVideo();
 if(location.hash==='#login'||location.hash==='#register')openAuth(location.hash.slice(1));
 </script></body></html>
